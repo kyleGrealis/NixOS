@@ -111,7 +111,7 @@
       }
 
       # Custom prompt
-      PS1='\n\[\033[1;34m\]\W\[\033[0;35m\]$(parse_git_branch) \[\033[0m\]\n\[\033[0;32m\]\u@\h\[\033[0m\] >> '
+      PS1='\n\[\033[1;34m\]\W\[\033[0;35m\]$(parse_git_branch) \[\033[0m\]\n\[\033[0;32m\]\h\[\033[0m\] >> '
 
       # Smart directory jump
       zd() {
