@@ -19,45 +19,45 @@
   # User-specific packages
   home.packages = with pkgs; [
     # Utilities
-    eza
-    fastfetch
-    trash-cli
-    ripgrep
-    fzf
-    micro
-    delta
-    tealdeer
-    tree
-    wl-clipboard     # Clipboard helper for Wayland
-    just             # Command runner
-    git-lfs          # Large file support for Git
-    gh               # GitHub CLI
-    lsof             # List open files
-    tcpdump          # Network packet analyzer
-    nmap             # Network scanner
     btop             # System monitor
+    delta            # Git diff tool
+    eza              # Modern ls replacement
+    fastfetch        # System info tool
+    fzf              # Fuzzy finder
+    gh               # GitHub CLI
     ghostty          # GPU-accelerated terminal emulator
+    git-lfs          # Large file support for Git
+    just             # Command runner
+    lsof             # List open files
+    micro            # Terminal text editor
+    nmap             # Network scanner
+    ripgrep          # Fast text search
+    tcpdump          # Network packet analyzer
+    tealdeer         # Fast tldr client
+    trash-cli        # Safe command-line trash
+    tree             # Directory tree visualizer
+    wl-clipboard     # Clipboard helper for Wayland
 
     # Dev Environments & Tools
-    positron-bin
     antigravity      # Google Antigravity IDE package from Nixpkgs
-    quarto           # Publishing CLI
     pandoc           # Document converter
+    positron-bin     # Positron IDE binary
     pre-commit       # Git hook manager
+    quarto           # Publishing CLI
 
     # User Applications
     brave            # Brave browser
-    google-chrome    # Google Chrome browser
     discord          # Discord chat client
+    emote            # Emoji picker
+    gimp             # GNU Image Manipulation Program
+    google-chrome    # Google Chrome browser
+    libreoffice      # Office productivity suite
+    obsidian         # Markdown knowledge base
+    proton-pass      # Proton Pass desktop client
     slack            # Slack chat client
     spotify          # Spotify music player
-    obsidian         # Markdown knowledge base
-    emote            # Emoji picker
     zoom-us          # Zoom meetings client
     zotero           # Reference manager
-    proton-pass      # Proton Pass desktop client
-    gimp             # GNU Image Manipulation Program
-    libreoffice      # Office productivity suite
   ];
 
   # Bash configuration
@@ -78,7 +78,6 @@
       # Safe file deletion alternatives
       tp = "trash-put";
       tl = "trash-list";
-      te = "trash-empty";
       rm = "rm -I --preserve-root";
 
       # Modern ls replacement (eza)
@@ -105,7 +104,6 @@
       # Personal Machine
       nix-switch = "sudo nixos-rebuild switch --flake ~/nix-config#nixMitters";
       watch-gpu = "watch -n 0.5 nvidia-smi";
-      kdererun = "pkill -f kdeconnectd; (/usr/bin/kdeconnectd > /dev/null 2>&1 & disown)";
     };
 
     # Custom functions and hooks to append to .bashrc
@@ -149,7 +147,7 @@
 
       # Silenced Positron launcher (suppresses warnings and job/process ID printing)
       positron() {
-          ( /usr/share/positron/positron "$@" >/dev/null 2>&1 & )
+          ( command positron "$@" >/dev/null 2>&1 & )
       }
     '';
   };
