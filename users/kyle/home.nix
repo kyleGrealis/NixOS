@@ -342,4 +342,17 @@
       name = "Launch Emoji Picker (Emote)";
     };
   };
+
+  # Autostart applications on GNOME login
+  xdg.configFile."autostart/ghostty.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Name=Ghostty
+    Exec=ghostty --maximize
+    Icon=com.mitchellh.ghostty
+    Comment=GPU-accelerated terminal emulator
+    Categories=System;TerminalEmulator;
+    StartupNotify=true
+    Terminal=false
+  '';
 }
