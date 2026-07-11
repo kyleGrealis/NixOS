@@ -52,6 +52,7 @@
     slack            # Slack chat client
     spotify          # Spotify music player
     obsidian         # Markdown knowledge base
+    emote            # Emoji picker
     zoom-us          # Zoom meetings client
     zotero           # Reference manager
     proton-pass      # Proton Pass desktop client
@@ -263,6 +264,7 @@
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom9/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom10/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom11/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom12/"
       ];
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
@@ -324,6 +326,11 @@
       binding = "<Super>d";
       command = "discord";
       name = "Launch Discord";
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom12" = {
+      binding = "<Super>period";
+      command = "emote";
+      name = "Launch Emoji Picker (Emote)";
     };
   };
 }
