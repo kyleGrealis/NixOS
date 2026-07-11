@@ -24,7 +24,12 @@
   # Bootloader configurations
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelParams = [ "zswap.enabled=0" ];
+  boot.kernelParams = [ "zswap.enabled=0" "quiet" "splash" ];
+  boot.plymouth.enable = true;
+
+  # Load Nvidia drivers in initrd (Early KMS) to prevent GDM race conditions / black screen hangs
+  boot.initrd.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
+
   boot.extraModprobeConfig = ''
     options nvidia NVreg_EnableGpuFirmware=0
   '';
@@ -43,17 +48,27 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
+    powerManagement.enable = true;
+    powerManagement.finegrained = true;
     open = false; # Set to true if GPU is Turing or newer and you prefer open-source drivers
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
+
+    # Configure Prime Offloading (Hybrid Mode)
+    prime = {
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
   };
 
   # Enable the GNOME Desktop Environment (using GDM display manager)
   services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Commented out COSMIC Desktop Environment for reference:
   # services.desktopManager.cosmic.enable = true;
@@ -84,6 +99,12 @@
   services.tailscale.enable = true;
   services.flatpak.enable = true;
   services.openssh.enable = true;
+
+  # Enable zram Swap to prevent OOM crashes during heavy R compilation
+  zramSwap.enable = true;
+
+  # Force Nix daemon to build in /var/tmp (SSD) instead of /tmp (RAM disk)
+  systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";
 
   # Hardware Udev Rules for NuPhy keyboard
   services.udev.extraRules = ''
@@ -141,6 +162,8 @@
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     auto-optimise-store = true;
+    max-jobs = 4;
+    cores = 2;
   };
 
   # System-wide Packages (Keep this minimal, most go to Home Manager)
