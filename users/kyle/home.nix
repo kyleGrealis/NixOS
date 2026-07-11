@@ -35,6 +35,7 @@
     lsof             # List open files
     tcpdump          # Network packet analyzer
     nmap             # Network scanner
+    ghostty          # GPU-accelerated terminal emulator
 
     # Dev Environments & Tools
     positron-bin
