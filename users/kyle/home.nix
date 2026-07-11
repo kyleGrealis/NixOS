@@ -243,6 +243,14 @@
       switch-to-workspace-right = [ "<Super><Alt>Right" ];
       move-to-workspace-left = [ "<Super><Shift><Alt>Left" ];
       move-to-workspace-right = [ "<Super><Shift><Alt>Right" ];
+
+      # Disable default Super+Space input layout switcher to prevent conflicts
+      switch-input-source = [];
+    };
+
+    # Map Super+Space to launch the GNOME Application Grid (App Picker)
+    "org/gnome/shell/keybindings" = {
+      toggle-application-view = [ "<Super>space" ];
     };
 
     "org/gnome/desktop/wm/preferences" = {
