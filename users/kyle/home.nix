@@ -100,6 +100,7 @@
       rsync = "rsync -azH --info=progress2";
       copy = "tee >(wl-copy)";
       ff = "clear && fastfetch";
+      rs = "Rscript -e";
 
       # Personal Machine
       nix-switch = "sudo nixos-rebuild switch --flake ~/nix-config#nixMitters";
