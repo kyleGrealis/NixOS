@@ -105,6 +105,9 @@
 
     # Custom functions and hooks to append to .bashrc
     initExtra = ''
+      # Ensure local bin is in PATH (workaround for Wayland/GNOME session vars)
+      export PATH="$HOME/.local/bin:$PATH"
+
       # Git branch parsing for prompt
       parse_git_branch() {
           git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'

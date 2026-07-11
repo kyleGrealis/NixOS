@@ -80,6 +80,7 @@
   security.sudo.wheelNeedsPassword = false;
 
   # Services
+  services.resolved.enable = true;
   services.tailscale.enable = true;
   services.flatpak.enable = true;
   services.openssh.enable = true;
