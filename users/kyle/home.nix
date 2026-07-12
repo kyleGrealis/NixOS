@@ -130,6 +130,23 @@
           eza -lha --group-directories-first --icons=auto
       }
 
+      up() {
+          local count=''${1:-1}
+          local target="."
+          for i in $(seq 1 $count); do
+              target+="/.."
+          done
+
+          local final_dest
+          final_dest=$(realpath "$target")
+
+          if [[ "$final_dest" != "$HOME"* && "$final_dest" != "$HOME" ]]; then
+              cdl "$HOME"
+          else
+              cdl "$target"
+          fi
+      }
+
       open() {
           xdg-open "$@" >/dev/null 2>&1 &
       }

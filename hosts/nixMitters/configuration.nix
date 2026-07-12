@@ -18,6 +18,8 @@
       "noauto"
       "_netdev"
       "x-systemd.idle-timeout=60"
+      "x-systemd.mount-timeout=5s" # Limit mount/unmount wait time during state change
+      "soft"                      # Return error on connection loss instead of hanging kernel
     ];
   };
 
