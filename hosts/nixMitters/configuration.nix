@@ -29,6 +29,9 @@
   boot.kernelParams = [ "zswap.enabled=0" "quiet" "splash" ];
   boot.plymouth.enable = true;
 
+  # Enable ARM64 emulation for building Raspberry Pi images
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   # Load Nvidia drivers in initrd (Early KMS) to prevent GDM race conditions / black screen hangs
   boot.initrd.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
 
