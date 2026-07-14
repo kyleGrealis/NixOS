@@ -4,13 +4,20 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    home-manager-stable = {
+      url = "github:nix-community/home-manager/release-25.11";
+      inputs.nixpkgs.follows = "nixos-raspberrypi/nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, home-manager-stable, nixos-raspberrypi, ... }@inputs: {
     nixosConfigurations.nixMitters = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
@@ -32,8 +39,45 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.kyle = import ./users/kyle/home.nix;
+          home-manager.users.kyle = import ./users/kyle/nixMitters.nix;
         }
+      ];
+    };
+
+    nixosConfigurations.pi5 = nixos-raspberrypi.lib.nixosSystem {
+      specialArgs = inputs;
+      modules = [
+        nixos-raspberrypi.nixosModules.raspberry-pi-5.base
+        ./hosts/pi5/configuration.nix
+        home-manager-stable.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.kyle = import ./users/kyle/pi5.nix;
+        }
+      ];
+    };
+
+    # Target for building the custom ready-to-flash SD card image
+    nixosConfigurations.pi5-installer = nixos-raspberrypi.lib.nixosInstaller {
+      specialArgs = inputs;
+      modules = [
+        nixos-raspberrypi.nixosModules.raspberry-pi-5.base
+        ./hosts/pi5/configuration.nix
+        home-manager-stable.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.kyle = import ./users/kyle/pi5.nix;
+        }
+        ({ pkgs, ... }: {
+          nixpkgs.overlays = [
+            (self: super: {
+              # Bypass QEMU emulation crash during R package builds by using a dummy R env
+              rEnv = pkgs.runCommand "r-env-dummy" {} "mkdir -p $out/bin $out/lib/R";
+            })
+          ];
+        })
       ];
     };
   };

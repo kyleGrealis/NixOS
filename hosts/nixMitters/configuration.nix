@@ -99,6 +99,9 @@
   # Passwordless Sudo for wheel group members
   security.sudo.wheelNeedsPassword = false;
 
+  # Home Manager global settings
+  home-manager.backupFileExtension = "backup";
+
   # Services
   services.resolved.enable = true;
   services.tailscale.enable = true;
@@ -155,6 +158,24 @@
     user = "kyle";
     dataDir = "/home/kyle";
     configDir = "/home/kyle/.config/syncthing";
+  };
+
+  # Stop CIFS automount and unmount share on suspend to prevent kernel freezes, restart on resume
+  systemd.services.cifs-suspend-handler = {
+    description = "Stop CIFS automount and unmount share on suspend, restart on resume";
+    before = [ "sleep.target" ];
+    wantedBy = [ "sleep.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = pkgs.writeShellScript "cifs-pre-suspend" ''
+        ${pkgs.systemd}/bin/systemctl stop home-kyle-piCloud.automount
+        ${pkgs.util-linux}/bin/umount -l /home/kyle/piCloud || true
+      '';
+      ExecStop = pkgs.writeShellScript "cifs-post-resume" ''
+        ${pkgs.systemd}/bin/systemctl start home-kyle-piCloud.automount
+      '';
+    };
   };
 
   # Virtualization

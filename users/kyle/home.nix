@@ -8,24 +8,16 @@
     "$HOME/.local/bin"
   ];
 
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  home.stateVersion = "26.05";
-
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
   # User-specific packages
   home.packages = with pkgs; [
     # Utilities
-    btop             # System monitor
-    delta            # Git diff tool
     eza              # Modern ls replacement
     fastfetch        # System info tool
     fzf              # Fuzzy finder
     gh               # GitHub CLI
-    ghostty          # GPU-accelerated terminal emulator
     git-lfs          # Large file support for Git
     just             # Command runner
     lsof             # List open files
@@ -36,28 +28,6 @@
     tealdeer         # Fast tldr client
     trash-cli        # Safe command-line trash
     tree             # Directory tree visualizer
-    wl-clipboard     # Clipboard helper for Wayland
-
-    # Dev Environments & Tools
-    antigravity      # Google Antigravity IDE package from Nixpkgs
-    pandoc           # Document converter
-    positron-bin     # Positron IDE binary
-    pre-commit       # Git hook manager
-    quarto           # Publishing CLI
-
-    # User Applications
-    brave            # Brave browser
-    discord          # Discord chat client
-    emote            # Emoji picker
-    gimp             # GNU Image Manipulation Program
-    google-chrome    # Google Chrome browser
-    libreoffice      # Office productivity suite
-    obsidian         # Markdown knowledge base
-    proton-pass      # Proton Pass desktop client
-    slack            # Slack chat client
-    spotify          # Spotify music player
-    zoom-us          # Zoom meetings client
-    zotero           # Reference manager
   ];
 
   # Bash configuration
@@ -73,7 +43,6 @@
       HISTFILESIZE = "10000";
     };
 
-    # Shell Aliases
     shellAliases = {
       # Safe file deletion alternatives
       tp = "trash-put";
@@ -97,13 +66,8 @@
       now = "date +'%F %T'";
       weather = "curl wttr.in/Dallas?0";
       rsync = "rsync -azH --info=progress2";
-      copy = "tee >(wl-copy)";
       ff = "clear && fastfetch";
       rs = "Rscript -e";
-
-      # Personal Machine
-      nix-switch = "sudo nixos-rebuild switch --flake ~/nix-config#nixMitters";
-      watch-gpu = "watch -n 0.5 nvidia-smi";
     };
 
     # Custom functions and hooks to append to .bashrc
@@ -145,10 +109,6 @@
           source "$HOME/.bashrc"
       }
 
-      # Silenced Positron launcher (suppresses warnings and job/process ID printing)
-      positron() {
-          ( command positron "$@" >/dev/null 2>&1 & )
-      }
     '';
   };
 
@@ -203,154 +163,13 @@
 
   # Declarative Out-of-Store Symlinks for agent settings sync via Obsidian
   home.file = {
-    ".gemini/antigravity-cli/settings.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/obsidian/dev/agent-guidelines/settings/settings.json";
-    ".claude/settings.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/obsidian/dev/agent-guidelines/settings/claude-settings.json";
-  };
-
-  # Declarative GNOME Keybindings and Settings
-  dconf.settings = {
-    "org/gnome/desktop/wm/keybindings" = {
-      close = [ "<Super>q" ];
-      minimize = [ "<Super>down" ];
-      maximize = [ "<Super>up" ];
-      unmaximize = [ "<Super>down" ];
-      
-      # Direct workspace jumps (Workspaces 1-9)
-      switch-to-workspace-1 = [ "<Super>1" ];
-      switch-to-workspace-2 = [ "<Super>2" ];
-      switch-to-workspace-3 = [ "<Super>3" ];
-      switch-to-workspace-4 = [ "<Super>4" ];
-      switch-to-workspace-5 = [ "<Super>5" ];
-      switch-to-workspace-6 = [ "<Super>6" ];
-      switch-to-workspace-7 = [ "<Super>7" ];
-      switch-to-workspace-8 = [ "<Super>8" ];
-      switch-to-workspace-9 = [ "<Super>9" ];
-
-      move-to-workspace-1 = [ "<Super><Shift>1" ];
-      move-to-workspace-2 = [ "<Super><Shift>2" ];
-      move-to-workspace-3 = [ "<Super><Shift>3" ];
-      move-to-workspace-4 = [ "<Super><Shift>4" ];
-      move-to-workspace-5 = [ "<Super><Shift>5" ];
-      move-to-workspace-6 = [ "<Super><Shift>6" ];
-      move-to-workspace-7 = [ "<Super><Shift>7" ];
-      move-to-workspace-8 = [ "<Super><Shift>8" ];
-      move-to-workspace-9 = [ "<Super><Shift>9" ];
-
-      # Sliding workspace navigation (Horizontal movement)
-      switch-to-workspace-left = [ "<Super><Alt>Left" ];
-      switch-to-workspace-right = [ "<Super><Alt>Right" ];
-      move-to-workspace-left = [ "<Super><Shift><Alt>Left" ];
-      move-to-workspace-right = [ "<Super><Shift><Alt>Right" ];
-
-      # Disable default Super+Space input layout switcher to prevent conflicts
-      switch-input-source = [];
+    ".gemini/antigravity-cli/settings.json" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/obsidian/dev/agent-guidelines/settings/settings.json";
+      force = true;
     };
-
-    # Map Super+Space to launch the GNOME Application Grid (App Picker)
-    "org/gnome/shell/keybindings" = {
-      toggle-application-view = [ "<Super>space" ];
-    };
-
-    "org/gnome/desktop/wm/preferences" = {
-      # Drag windows by clicking anywhere on the window while holding the Super key
-      mouse-button-modifier = "<Super>";
-    };
-
-    # Declarative Custom App Launchers (from legacy COSMIC configuration)
-    "org/gnome/settings-daemon/plugins/media-keys" = {
-      custom-keybindings = [
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/"
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4/"
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom5/"
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom6/"
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom7/"
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom8/"
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom9/"
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom10/"
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom11/"
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom12/"
-      ];
-    };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
-      binding = "<Super>Return";
-      command = "ghostty";
-      name = "Launch Terminal (Ghostty)";
-    };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
-      binding = "<Super>b";
-      command = "google-chrome";
-      name = "Launch Chrome";
-    };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
-      binding = "<Super><Shift>b";
-      command = "google-chrome --incognito";
-      name = "Launch Chrome (Incognito)";
-    };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3" = {
-      binding = "<Super>m";
-      command = "spotify";
-      name = "Launch Spotify";
-    };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4" = {
-      binding = "<Super>t";
-      command = "ghostty -e btop";
-      name = "Launch System Monitor (btop)";
-    };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom5" = {
-      binding = "<Super>e";
-      command = "google-chrome --app=https://mail.google.com";
-      name = "Launch Gmail";
-    };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom6" = {
-      binding = "<Super>p";
-      command = "positron";
-      name = "Launch Positron";
-    };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom7" = {
-      binding = "<Super>o";
-      command = "obsidian";
-      name = "Launch Obsidian";
-    };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom8" = {
-      binding = "<Super>s";
-      command = "slack";
-      name = "Launch Slack";
-    };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom9" = {
-      binding = "<Super>c";
-      command = "google-chrome --app=https://www.claude.ai";
-      name = "Launch Claude AI";
-    };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom10" = {
-      binding = "<Super>slash";
-      command = "google-chrome --app=https://messages.google.com";
-      name = "Launch Google Messages";
-    };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom11" = {
-      binding = "<Super>d";
-      command = "discord";
-      name = "Launch Discord";
-    };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom12" = {
-      binding = "<Super>period";
-      command = "emote";
-      name = "Launch Emoji Picker (Emote)";
+    ".claude/settings.json" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/obsidian/dev/agent-guidelines/settings/claude-settings.json";
+      force = true;
     };
   };
-
-  # Autostart applications on GNOME login
-  xdg.configFile."autostart/ghostty.desktop".text = ''
-    [Desktop Entry]
-    Type=Application
-    Name=Ghostty
-    Exec=ghostty --maximize
-    Icon=com.mitchellh.ghostty
-    Comment=GPU-accelerated terminal emulator
-    Categories=System;TerminalEmulator;
-    StartupNotify=true
-    Terminal=false
-  '';
 }
