@@ -66,6 +66,9 @@ in
     gid = 1002;
   };
 
+  # Passwordless Sudo for wheel group members
+  security.sudo.wheelNeedsPassword = false;
+
   # File system mounts (Samsung T9 exFAT external SSD)
   fileSystems."/mnt/piCloud" = {
     device = "/dev/disk/by-uuid/767C-0994";
