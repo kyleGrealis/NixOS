@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-PI5_IP="100.73.97.16"
+PI5_NAME="nixPi5"
 echo "🛡️ Switching to protection mode..."
-sudo tailscale up --exit-node="$PI5_IP"
+sudo tailscale up --exit-node="$PI5_NAME"
 
 STATUS=$(tailscale status)
 if echo "$STATUS" | grep -q "; exit node;"; then

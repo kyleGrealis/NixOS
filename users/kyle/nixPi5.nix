@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 
 let
-  backup-pi5-pkg = pkgs.writeShellApplication {
-    name = "backup-pi5";
+  backup-nixPi5-pkg = pkgs.writeShellApplication {
+    name = "backup-nixPi5";
     runtimeInputs = [
       pkgs.rsync
       pkgs.sqlite
@@ -12,7 +12,7 @@ let
       pkgs.coreutils
       pkgs.findutils
     ];
-    text = builtins.readFile ../../scripts/backup-pi5.sh;
+    text = builtins.readFile ../../scripts/backup-nixPi5.sh;
   };
 
   backup-sofia-q2h-pkg = pkgs.writeShellApplication {
@@ -48,7 +48,7 @@ in
     delta            # Git diff tool
     
     # Declarative user utilities
-    backup-pi5-pkg
+    backup-nixPi5-pkg
     backup-sofia-q2h-pkg
     compile-memory-pkg
     get-carried-over-tasks-pkg
@@ -57,7 +57,7 @@ in
   programs.bash.shellAliases = {
     # Headless/server-specific aliases
     copy = "tee >(osc-copy)";
-    nix-switch = "sudo nixos-rebuild switch --flake ~/NixOS#pi5";
+    nix-switch = "sudo nixos-rebuild switch --flake ~/NixOS#nixPi5";
   };
 
   programs.bash.initExtra = ''
@@ -73,15 +73,15 @@ in
 
   # Declarative User Systemd Services
   systemd.user.services = {
-    backup-pi5 = {
+    backup-nixPi5 = {
       Unit = {
-        Description = "Daily Backup of pi5 Services and Sync to Google Drive";
+        Description = "Daily Backup of nixPi5 Services and Sync to Google Drive";
         After = [ "network-online.target" ];
         Wants = [ "network-online.target" ];
       };
       Service = {
         Type = "oneshot";
-        ExecStart = "${backup-pi5-pkg}/bin/backup-pi5";
+        ExecStart = "${backup-nixPi5-pkg}/bin/backup-nixPi5";
       };
     };
 
@@ -192,9 +192,9 @@ in
 
   # Declarative User Systemd Timers
   systemd.user.timers = {
-    backup-pi5 = {
+    backup-nixPi5 = {
       Unit = {
-        Description = "Daily Backup of pi5 Services Timer";
+        Description = "Daily Backup of nixPi5 Services Timer";
       };
       Timer = {
         OnCalendar = "*-*-* 02:00:00";

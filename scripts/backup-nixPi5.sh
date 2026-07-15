@@ -5,11 +5,11 @@
 set -euo pipefail
 
 # Logging
-LOG_FILE="/home/kyle/backup-pi5.log"
+LOG_FILE="/home/kyle/backup-nixPi5.log"
 exec > >(tee -ia "$LOG_FILE") 2>&1
 
 echo "============================================="
-echo "Starting pi5 Backup: $(date)"
+echo "Starting nixPi5 Backup: $(date)"
 echo "============================================="
 
 PICLOUD="/mnt/piCloud"
@@ -59,6 +59,18 @@ cp -f /home/kyle/.config/rclone/rclone.conf "$BACKUP_DIR/configs/rclone.conf" ||
 cp -f /home/kyle/.gemini/antigravity-cli/settings.json "$BACKUP_DIR/configs/agy-settings.json" || true
 cp -f /home/kyle/.claude/settings.json "$BACKUP_DIR/configs/claude-settings.json" || true
 cp -f /home/kyle/.cloudflared/*.json "$BACKUP_DIR/configs/" || true
+
+# Copy Antigravity CLI and Gemini/Claude authentication credentials
+mkdir -p "$BACKUP_DIR/configs/gemini"
+cp -f /home/kyle/.gemini/*.json "$BACKUP_DIR/configs/gemini/" || true
+cp -f /home/kyle/.gemini/installation_id "$BACKUP_DIR/configs/gemini/" || true
+mkdir -p "$BACKUP_DIR/configs/claude"
+cp -f /home/kyle/.claude/.credentials.json "$BACKUP_DIR/configs/claude/.credentials.json" || true
+cp -f /home/kyle/.claude/settings.local.json "$BACKUP_DIR/configs/claude/settings.local.json" || true
+
+# Copy Tailscale State (requires sudo)
+echo "--- Backing up Tailscale State ---"
+sudo cp -f /var/lib/tailscale/tailscaled.state "$BACKUP_DIR/configs/tailscaled.state" || true
 
 # Copy shell and dev profiles (including critical .env variables file!)
 cp -f /home/kyle/.env "$BACKUP_DIR/dotfiles/.env" || true
@@ -161,12 +173,12 @@ if docker ps --format '{{.Names}}' | grep -q "^onecli-postgres-1$"; then
     docker exec -t onecli-postgres-1 pg_dump -U onecli onecli > "$BACKUP_DIR/docker-volumes/onecli_postgres.sql" || true
 else
     echo "Container onecli-postgres-1 is offline, falling back to volume tarball..."
-    docker run --rm -v pgdata:/volume -v "$BACKUP_DIR/docker-volumes":/backup alpine tar czf /backup/pgdata.tar.gz -C /volume . || true
+    docker run --rm -v onecli_pgdata:/volume -v "$BACKUP_DIR/docker-volumes":/backup alpine tar czf /backup/onecli_pgdata.tar.gz -C /volume . || true
 fi
 
 # Backup OneCLI application data (app-data volume)
 echo "--- Backing up OneCLI App-Data Volume ---"
-docker run --rm -v app-data:/volume -v "$BACKUP_DIR/docker-volumes":/backup alpine tar czf /backup/app-data.tar.gz -C /volume . || true
+docker run --rm -v onecli_app-data:/volume -v "$BACKUP_DIR/docker-volumes":/backup alpine tar czf /backup/onecli_app-data.tar.gz -C /volume . || true
 
 
 # 5.5 Backup Obsidian Vault (Syncthing keeps it in sync, but this creates a historical backup)

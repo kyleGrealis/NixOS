@@ -1,5 +1,15 @@
 { config, pkgs, ... }:
 
+let
+  backup-nixMitters-pkg = pkgs.writeShellApplication {
+    name = "backup-nixMitters";
+    runtimeInputs = [
+      pkgs.rsync
+      pkgs.coreutils
+    ];
+    text = builtins.readFile ../../scripts/backup-nixMitters.sh;
+  };
+in
 {
   imports = [
     ./home.nix
@@ -33,6 +43,8 @@
     # Graphic and workstation specifics
     delta            # Git diff tool (used for pager)
     wl-clipboard     # Clipboard helper for Wayland
+    
+    backup-nixMitters-pkg
   ];
 
   programs.bash.shellAliases = {
@@ -190,4 +202,35 @@
     StartupNotify=true
     Terminal=false
   '';
+
+  # Declarative User Systemd Services
+  systemd.user.services = {
+    backup-nixMitters = {
+      Unit = {
+        Description = "Daily Local Backup of nixMitters Configs to piCloud";
+        After = [ "network-online.target" ];
+        Wants = [ "network-online.target" ];
+      };
+      Service = {
+        Type = "oneshot";
+        ExecStart = "${backup-nixMitters-pkg}/bin/backup-nixMitters";
+      };
+    };
+  };
+
+  # Declarative User Systemd Timers
+  systemd.user.timers = {
+    backup-nixMitters = {
+      Unit = {
+        Description = "Daily Local Backup of nixMitters Configs Timer";
+      };
+      Timer = {
+        OnCalendar = "*-*-* 01:00:00";
+        Persistent = true;
+      };
+      Install = {
+        WantedBy = [ "timers.target" ];
+      };
+    };
+  };
 }

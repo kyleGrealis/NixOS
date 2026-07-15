@@ -36,6 +36,7 @@ in
     # 21027   Syncthing Discovery
     allowedTCPPorts = [ 22 3838 3839 22000 8384 ];
     allowedUDPPorts = [ 22000 21027 ];
+    trustedInterfaces = [ "tailscale0" ];
   };
 
   # Set your time zone
@@ -132,7 +133,7 @@ in
   services.nginx = {
     enable = true;
     virtualHosts."localhost" = {
-      listen = [ { addr = "127.0.0.1"; port = 3839; } ];
+      listen = [ { addr = "0.0.0.0"; port = 3839; } ];
       locations."/" = {
         root = "/srv/slides";
       };
@@ -149,6 +150,7 @@ in
     environment = {
       R_HOME = "${rEnv}/lib/R";
       PATH = pkgs.lib.mkForce "${rEnv}/bin:${pkgs.nodejs_22}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin";
+      SOFIA_DB_PATH = "/var/lib/shiny-data/sofia/sofia.sqlite";
     };
 
     serviceConfig = {
