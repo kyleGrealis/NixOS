@@ -206,6 +206,7 @@ in
     user = "kyle";
     dataDir = "/home/kyle";
     configDir = "/home/kyle/.local/state/syncthing";
+    openDefaultPorts = true;
   };
 
   # Stop CIFS automount and unmount share on suspend to prevent kernel freezes, restart on resume
