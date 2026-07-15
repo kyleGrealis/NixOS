@@ -30,6 +30,7 @@ in
     brave            # Brave browser
     discord          # Discord chat client
     emote            # Emoji picker
+    ghostty          # Terminal
     gimp             # GNU Image Manipulation Program
     google-chrome    # Google Chrome browser
     libreoffice      # Office productivity suite
@@ -121,6 +122,7 @@ in
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom11/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom12/"
       ];
+      rotate-video-lock-static = [];
     };
 
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
