@@ -1,5 +1,5 @@
 #!/bin/bash
-# Local backup script for archMitters configurations and profiles
+# Local backup script for nixMitters configurations and profiles
 # Saves directly to the mounted piCloud share (which pi5 syncs to Google Drive).
 
 set -e
@@ -48,5 +48,5 @@ if [ -d "/home/kyle/.config/syncthing" ]; then
 fi
 
 echo "============================================="
-echo "archMitters Backup Completed: $(date)"
+echo "nixMitters Backup Completed: $(date)"
 echo "============================================="
