@@ -69,10 +69,10 @@ The build, flashing, login, hardware profile generation, and backup/restore guid
 
 Apply updates or rebuild system changes on either machine:
 ```bash
-# On Laptop
+# On Laptop (or use the 'nix-switch' alias)
 sudo nixos-rebuild switch --flake ~/NixOS#nixMitters
 
-# On Raspberry Pi 5
+# On Raspberry Pi 5 (or use the 'nix-switch' alias)
 sudo nixos-rebuild switch --flake ~/NixOS#pi5
 ```
 
@@ -84,3 +84,48 @@ systemctl status nginx
 systemctl status shiny-server
 systemctl --user status geminios milton
 ```
+
+---
+
+## 🔄 System Maintenance & Updates
+
+Use these workflows to keep system packages, R environments, and NixOS inputs up to date.
+
+### 1. Adding, Removing, or Modifying Packages
+*   **System-wide Packages:** Edit `environment.systemPackages` in the host's `configuration.nix` (e.g., [hosts/nixMitters/configuration.nix](file:///home/kyle/NixOS/hosts/nixMitters/configuration.nix) or [hosts/pi5/configuration.nix](file:///home/kyle/NixOS/hosts/pi5/configuration.nix)).
+*   **User/Home Manager Packages:** Edit `home.packages` in the base [users/kyle/home.nix](file:///home/kyle/NixOS/users/kyle/home.nix), or host-specific user config [users/kyle/nixMitters.nix](file:///home/kyle/NixOS/users/kyle/nixMitters.nix) / [users/kyle/pi5.nix](file:///home/kyle/NixOS/users/kyle/pi5.nix).
+*   **Applying Changes:** Run the rebuild command: `sudo nixos-rebuild switch --flake ~/NixOS#<host>`.
+
+### 2. Updating R Packages
+R package management differs between the laptop workstation and the production server:
+*   **Production Server (`pi5`):**
+    1. Open [hosts/pi5/r-env.nix](file:///home/kyle/NixOS/hosts/pi5/r-env.nix).
+    2. Add or remove packages from the `packages` list (must be valid Nixpkgs R packages, e.g., `dplyr`, `ggplot2`).
+    3. Rebuild the system: `sudo nixos-rebuild switch --flake ~/NixOS#pi5`.
+*   **Laptop Workstation (`nixMitters`):**
+    *   Laptop R environments are project-specific to keep the system clean and build times fast.
+    *   Enter the project directory (e.g., `~/dev/some-project`). `direnv` will load the local `flake.nix`.
+    *   Install/update packages interactively in R using `install.packages()`. They will be compiled into the local `.Rlibs` directory within that project.
+
+### 3. Upgrading Packages & Lockfile (Flake Inputs)
+To update existing packages to their latest versions matching upstream Nixpkgs channels (stable/unstable):
+1. Navigate to the NixOS directory:
+   ```bash
+   cd ~/NixOS
+   ```
+2. Update the inputs:
+   *   **Update Everything:** `nix flake update`
+   *   **Update a Specific Input (e.g., nixpkgs):** `nix flake update nixpkgs`
+3. Rebuild and switch:
+   ```bash
+   sudo nixos-rebuild switch --flake ~/NixOS#<host>
+   ```
+
+### 4. Performing Major NixOS Upgrades
+When a new NixOS stable branch is released (e.g., upgrading `release-25.11` to `release-26.05` on `pi5`):
+1. Open [flake.nix](file:///home/kyle/NixOS/flake.nix).
+2. Locate the stable channel URL inputs and bump the version tag (e.g., change `/release-25.11` to `/release-26.05`).
+3. Update the inputs lockfile: `nix flake update`.
+4. Rebuild the system: `sudo nixos-rebuild switch --flake ~/NixOS#pi5`.
+   > [!IMPORTANT]
+   > Keep `system.stateVersion` unchanged (e.g., `"25.11"` or `"26.05"`) in the host configurations. This value represents the release version of the original installation and is used to maintain compatibility for stateful services (like database directories or system layouts). Upgrading it can break backward compatibility.

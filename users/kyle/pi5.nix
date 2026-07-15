@@ -1,5 +1,39 @@
 { config, pkgs, ... }:
 
+let
+  backup-pi5-pkg = pkgs.writeShellApplication {
+    name = "backup-pi5";
+    runtimeInputs = [
+      pkgs.rsync
+      pkgs.sqlite
+      pkgs.rclone
+      pkgs.docker
+      pkgs.gnugrep
+      pkgs.coreutils
+      pkgs.findutils
+    ];
+    text = builtins.readFile ../../scripts/backup-pi5.sh;
+  };
+
+  backup-sofia-q2h-pkg = pkgs.writeShellApplication {
+    name = "backup-sofia-q2h";
+    runtimeInputs = [
+      pkgs.sqlite
+      pkgs.rclone
+      pkgs.coreutils
+      pkgs.findutils
+    ];
+    text = builtins.readFile ../../scripts/backup-sofia-q2h.sh;
+  };
+
+  compile-memory-pkg = pkgs.writeShellApplication {
+    name = "compile-memory";
+    runtimeInputs = [ pkgs.uv pkgs.python3 ];
+    text = builtins.readFile ../../scripts/compile-memory.sh;
+  };
+
+  get-carried-over-tasks-pkg = pkgs.writers.writePython3Bin "get-carried-over-tasks" { } (builtins.readFile ../../scripts/get-carried-over-tasks.py);
+in
 {
   imports = [
     ./home.nix
@@ -12,6 +46,12 @@
     uv               # Fast Python packaging (needed for memory compilers)
     btop             # System monitor
     delta            # Git diff tool
+    
+    # Declarative user utilities
+    backup-pi5-pkg
+    backup-sofia-q2h-pkg
+    compile-memory-pkg
+    get-carried-over-tasks-pkg
   ];
 
   programs.bash.shellAliases = {
@@ -41,7 +81,7 @@
       };
       Service = {
         Type = "oneshot";
-        ExecStart = "/home/kyle/scripts/backup-pi5.sh";
+        ExecStart = "${backup-pi5-pkg}/bin/backup-pi5";
       };
     };
 
@@ -53,7 +93,7 @@
       };
       Service = {
         Type = "oneshot";
-        ExecStart = "/home/kyle/scripts/backup-sofia-q2h.sh";
+        ExecStart = "${backup-sofia-q2h-pkg}/bin/backup-sofia-q2h";
       };
     };
 
@@ -64,7 +104,7 @@
       Service = {
         Type = "oneshot";
         WorkingDirectory = "/home/kyle/dev/agentic-memory-compiler";
-        ExecStart = "${pkgs.uv}/bin/uv run python scripts/compile.py";
+        ExecStart = "${compile-memory-pkg}/bin/compile-memory";
         Environment = [
           "PATH=${pkgs.uv}/bin:${pkgs.python3}/bin:/run/current-system/sw/bin:/usr/bin"
           "COMPILE_USE_ANTHROPIC=true"

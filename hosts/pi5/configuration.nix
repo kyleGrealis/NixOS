@@ -16,9 +16,24 @@ in
   networking.hostName = "nixPi5";
   networking.networkmanager.enable = true;
 
+  # Static IP configuration for home network
+  networking.interfaces.end0.useDHCP = false;
+  networking.interfaces.end0.ipv4.addresses = [{
+    address = "192.168.1.11";
+    prefixLength = 24;
+  }];
+  networking.defaultGateway = "192.168.1.254";
+  networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
+
   # Open system ports for administration, app servers, and Syncthing
   networking.firewall = {
     enable = true;
+    # 22      OpenSSH
+    # 3838    Shiny server
+    # 3839    Nginx (slides server)
+    # 8384    Syncthing Web UI
+    # 22000   Syncthing Sync
+    # 21027   Syncthing Discovery
     allowedTCPPorts = [ 22 3838 3839 22000 8384 ];
     allowedUDPPorts = [ 22000 21027 ];
   };
@@ -74,8 +89,24 @@ in
     };
   };
 
-  # Enable Tailscale (allows exit-node setup)
-  services.tailscale.enable = true;
+  # Enable Tailscale and enable packet forwarding for exit-node routing
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "server";
+  };
+
+  # Declarative one-shot service to enforce exit-node flag on boot
+  systemd.services.tailscale-exit-node = {
+    description = "Enforce Tailscale exit-node advertisement";
+    after = [ "tailscaled.service" "network-online.target" ];
+    wants = [ "tailscaled.service" "network-online.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.tailscale}/bin/tailscale up --advertise-exit-node";
+      RemainAfterExit = true;
+    };
+  };
 
   # Enable Docker
   virtualisation.docker.enable = true;
