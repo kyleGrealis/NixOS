@@ -115,6 +115,7 @@
   # Git Configuration
   programs.git = {
     enable = true;
+    ignores = [ "**/.claude/settings.local.json" ];
     settings = {
       user = {
         name = "Kyle Grealis";
@@ -161,6 +162,48 @@
     enableBashIntegration = true;
   };
 
+  # XDG MIME Applications and User Directories
+  xdg = {
+    enable = true;
+
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "application/pdf" = [ "onlyoffice-desktopeditors.desktop" ];
+        "application/x-terminal-emulator" = [ "com.mitchellh.ghostty.desktop" ];
+        "text/html" = [ "google-chrome.desktop" ];
+        "text/markdown" = [ "positron.desktop" ];
+        "text/plain" = [ "positron.desktop" ];
+        "text/x-r" = [ "positron.desktop" ];
+        "text/x-quarto" = [ "positron.desktop" ];
+        "text/x-typescript" = [ "positron.desktop" ];
+        "text/javascript" = [ "positron.desktop" ];
+        "x-scheme-handler/about" = [ "google-chrome.desktop" ];
+        "x-scheme-handler/http" = [ "google-chrome.desktop" ];
+        "x-scheme-handler/https" = [ "google-chrome.desktop" ];
+        "x-scheme-handler/mailto" = [ "gmail.desktop" ];
+        "x-scheme-handler/slack" = [ "slack.desktop" ];
+        "x-scheme-handler/terminal" = [ "com.mitchellh.ghostty.desktop" ];
+      };
+    };
+
+    userDirs = {
+      enable = true;
+      createDirectories = true;
+      desktop = "${config.home.homeDirectory}/Desktop";
+      documents = "${config.home.homeDirectory}/Documents";
+      download = "${config.home.homeDirectory}/Downloads";
+      music = "${config.home.homeDirectory}/";
+      pictures = "${config.home.homeDirectory}/Pictures";
+      publicShare = "${config.home.homeDirectory}/";
+      templates = "${config.home.homeDirectory}/";
+      videos = "${config.home.homeDirectory}/Videos";
+      extraConfig = {
+        XDG_PROJECTS_DIR = "${config.home.homeDirectory}/Projects";
+      };
+    };
+  };
+
   # Declarative Out-of-Store Symlinks for agent settings sync via Obsidian
   home.file = {
     ".gemini/antigravity-cli/settings.json" = {
@@ -169,6 +212,34 @@
     };
     ".claude/settings.json" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/obsidian/dev/agent-guidelines/settings/claude-settings.json";
+      force = true;
+    };
+    ".config/Positron/User/settings.json" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/positron/settings.json";
+      force = true;
+    };
+    ".config/Positron/User/keybindings.json" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/positron/keybindings.json";
+      force = true;
+    };
+    ".config/ghostty/config" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/ghostty/config";
+      force = true;
+    };
+    ".config/micro/settings.json" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/micro/settings.json";
+      force = true;
+    };
+    ".config/micro/bindings.json" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/micro/bindings.json";
+      force = true;
+    };
+    ".config/btop/btop.conf" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/btop/btop.conf";
+      force = true;
+    };
+    ".config/fastfetch/config.jsonc" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/fastfetch/config.jsonc";
       force = true;
     };
   };

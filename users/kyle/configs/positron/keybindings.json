@@ -1,0 +1,318 @@
+// Place your key bindings in this file to override the defaults
+[
+    // custom bindings
+    {
+      // R pipe
+      "key": "ctrl+shift+m",
+      "command": "type",
+      "args": {
+        "text": " |> "
+      },
+      "when": "editorTextFocus"
+    },
+
+    {
+        // Terminal copy selection
+        "key": "ctrl+c",
+        "command": "workbench.action.terminal.copySelection",
+        "when": "terminalFocus && terminalProcessSupported && terminalTextSelected"
+    },
+    {
+        // Terminal interrupt (Ctrl+C when no selection)
+        "key": "ctrl+c",
+        "command": "workbench.action.terminal.sendSequence",
+        "args": { "text": "\u0003" },
+        "when": "terminalFocus && !terminalTextSelected"
+    },
+    {
+        // Terminal interrupt (Ctrl+Shift+C)
+        "key": "ctrl+shift+c",
+        "command": "workbench.action.terminal.sendSequence",
+        "args": { "text": "\u0003" },
+        "when": "terminalFocus"
+    },
+    {
+        // Terminal paste
+        "key": "ctrl+v",
+        "command": "workbench.action.terminal.paste",
+        "when": "terminalFocus"
+    },
+
+    {
+      // R pipe extra
+      "key": "alt+shift+.",
+      "command": "type",
+      "args": {
+        "text": " |> "
+      },
+      "when": "editorTextFocus"
+    },
+
+    {
+      // R assignment operator
+      "key": "alt+-",
+      "command": "type",
+      "args": {
+        "text": " <- "
+      },
+      "when": "editorTextFocus"
+    },
+
+    {
+      // Shift+Enter in terminal (new line in AI tools)
+      "key": "shift+enter",
+      "command": "workbench.action.terminal.sendSequence",
+      // this does a new line in AI tools (Gemini & Claude), but not in terminal unless within a quoted section (i.e., a git commit)
+      // "args": { "text": "\u001b\n" },
+      // this sends a new line in both listed above. don't use but save for now
+      "args": { "text": "\u001b\r" },
+      "when": "terminalFocus && !terminalFindWidgetVisible"
+    },
+
+
+    // overwritten defaults
+    {
+      // Delete current line where cursor is
+      "key": "ctrl+d",
+      "command": "editor.action.deleteLines",
+      "when": "textInputFocus && !editorReadonly"
+    },
+    {
+      // remove default
+      "key": "ctrl+shift+k",
+      "command": "-editor.action.deleteLines",
+      "when": "textInputFocus && !editorReadonly"
+    },
+    {
+      // remove default
+      "key": "ctrl+d",
+      "command": "-editor.action.addSelectionToNextFindMatch",
+      "when": "editorFocus"
+    },
+    {
+      // Copy current line down
+      "key": "ctrl+shift+d",
+      "command": "editor.action.copyLinesDownAction",
+      "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+      // remove default
+      "key": "shift+alt+down",
+      "command": "-editor.action.copyLinesDownAction",
+      "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+      // remove default
+      "key": "ctrl+shift+d",
+      "command": "-workbench.view.debug",
+      "when": "viewContainer.workbench.view.debug.enabled"
+    },
+    {
+      // remove default
+      "key": "ctrl+alt+i",
+      "command": "-workbench.action.chat.open",
+      "when": "hasChatProvider"
+    },
+    {
+      // Insert code cell in Quarto
+      "key": "ctrl+alt+i",
+      "command": "quarto.insertCodeCell",
+      "when": "editorTextFocus && !findInputFocussed && !replaceInputFocussed && editorLangId == 'quarto'"
+    },
+    {
+      // remove default
+      "key": "ctrl+shift+i",
+      "command": "-quarto.insertCodeCell",
+      "when": "editorTextFocus && !findInputFocussed && !replaceInputFocussed && editorLangId == 'quarto'"
+    },
+    {
+      // Delete line to the beginning
+      "key": "alt+backspace",
+      "command": "deleteAllLeft"
+    },
+    {
+      // GitHub Copilot accept solution
+      "key": "ctrl+shift+/",
+      "command": "github.copilot.acceptCursorPanelSolution",
+      "when": "github.copilot.activated && github.copilot.panelVisible"
+    },
+    {
+      // remove default
+      "key": "ctrl+/",
+      "command": "-github.copilot.acceptCursorPanelSolution",
+      "when": "github.copilot.activated && github.copilot.panelVisible"
+    },
+    {
+      // remove default
+      "key": "alt+left",
+      "command": "-workbench.action.navigateBack",
+      "when": "canNavigateBack"
+    },
+    {
+      // Move to beginning of the line
+      "key": "alt+left",
+      "command": "cursorLineStart"
+    },
+    {
+      // Move to the end of the line
+      "key": "alt+right",
+      "command": "cursorLineEnd"
+    },
+    {
+      // Highlight / select all to the beginning
+      "key": "shift+alt+left",
+      "command": "cursorLineStartSelect"
+    },
+    {
+      // Highlight / select all to the end
+      "key": "shift+alt+right",
+      "command": "cursorLineEndSelect"
+    },
+    {
+      // Insert Quarto callout
+      "key": "ctrl+alt+l",
+      "command": "editor.action.insertSnippet",
+      "args": {
+          "snippet": "::: {.callout}\n$0\n:::"
+      }
+    },
+    {
+      // Open new window
+      "key": "ctrl+alt+n ctrl+alt+w",
+      "command": "workbench.action.newWindow"
+    },
+    {
+      // remove default
+      "key": "ctrl+shift+n",
+      "command": "-workbench.action.newWindow"
+    },
+    {
+      // Focus second editor group
+      "key": "alt+2",
+      "command": "workbench.action.focusSecondEditorGroup"
+    },
+    {
+      // remove default
+      "key": "ctrl+2",
+      "command": "-workbench.action.focusSecondEditorGroup"
+    },
+    {
+      // remove default
+      "key": "ctrl+l",
+      "command": "-continue.focusContinueInput"
+    },
+    {
+      // Continue: focus input without clearing
+      "key": "ctrl+shift+l",
+      "command": "continue.focusContinueInputWithoutClear"
+    },
+    {
+      // remove default
+      "key": "ctrl+shift+l",
+      "command": "-continue.focusContinueInputWithoutClear"
+    },
+    {
+      // Continue: accept diff
+      "key": "shift+alt+enter",
+      "command": "continue.acceptDiff"
+    },
+    {
+      // remove default
+      "key": "ctrl+shift+enter",
+      "command": "-continue.acceptDiff"
+    },
+    {
+      // Toggle terminal
+      "key": "ctrl+3",
+      "command": "workbench.action.terminal.toggleTerminal",
+      "when": "terminal.active"
+    },
+    {
+      // remove default
+      "key": "ctrl+`",
+      "command": "-workbench.action.terminal.toggleTerminal",
+      "when": "terminal.active"
+    },
+    {
+      // Jump to matching bracket
+      "key": "alt+/",
+      "command": "editor.action.jumpToBracket",
+      "when": "editorTextFocus"
+    },
+    {
+      // remove default
+      "key": "ctrl+shift+\\",
+      "command": "-editor.action.jumpToBracket",
+      "when": "editorTextFocus"
+    },
+    {
+      // Open file explorer
+      "key": "ctrl+4",
+      "command": "workbench.view.explorer",
+      "when": "viewContainer.workbench.view.explorer.enabled"
+    },
+    {
+      // remove default
+      "key": "ctrl+shift+e",
+      "command": "-workbench.view.explorer",
+      "when": "viewContainer.workbench.view.explorer.enabled"
+    },
+    {
+      // Open help panel
+      "key": "ctrl+5",
+      "command": "workbench.panel.positronHelp"
+    },
+    {
+      // Toggle preview
+      "key": "ctrl+6",
+      "command": "workbench.action.positron.togglePreview",
+      "when": "workbench.panel.positronPreview.active"
+    },
+    {
+      // remove default
+      "key": "ctrl+shift+h",
+      "command": "-workbench.action.positron.togglePreview",
+      "when": "workbench.panel.positronPreview.active"
+    },
+    {
+      // Kill terminal
+      "key": "ctrl+shift+3",
+      "command": "workbench.action.terminal.kill"
+    },
+    {
+      // Quick open terminal
+      "key": "ctrl+t ctrl+t",
+      "command": "workbench.action.quickOpenTerm"
+    },
+    {
+      // remove default
+      "key": "ctrl+7",
+      "command": "-workbench.action.focusSeventhEditorGroup"
+    },
+    {
+      // Open source control view
+      "key": "ctrl+7",
+      "command": "workbench.view.scm"
+    },
+    {
+      // remove default
+      "key": "ctrl+alt+m",
+      "command": "-workbench.view.scm"
+    },
+    {
+      "key": "ctrl+9",
+      "command": "-workbench.action.lastEditorInGroup"
+    },
+    {
+      "key": "ctrl+9",
+      "command": "claudeVSCodeSidebarSecondary.focus"
+    },
+    {
+      "key": "ctrl+alt+m",
+      "command": "-code-runner.stop"
+    },
+    {
+      "key": "alt+shift+m",
+      "command": "workbench.action.toggleMaximizedAuxiliaryBar"
+    }
+  ]

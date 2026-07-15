@@ -1,0 +1,53 @@
+# Window settings
+window-padding-x = 15
+window-padding-y = 5
+window-decoration = false
+background-opacity = 0.98
+background-blur-radius = 20
+
+# Font settings
+font-family = Hack
+font-size = 13
+adjust-cell-height = 2
+
+# Cursor settings
+cursor-style = bar
+cursor-style-blink = true
+# cursor-blink-interval = 500
+cursor-invert-fg-bg = true
+
+# OneDark color scheme
+background = 282c34
+foreground = dcdfe4
+
+# Cursor colors
+cursor-color = dcdfe4
+cursor-text = 000000
+
+# Selection colors
+selection-background = 3e4451
+selection-foreground = dcdfe4
+
+# Normal colors
+palette = 0=#282c34
+palette = 1=#e06c75
+palette = 2=#98c379
+palette = 3=#e5c07b
+palette = 4=#61afef
+palette = 5=#c678dd
+palette = 6=#56b6c2
+palette = 7=#abb2bf
+
+# Bright colors
+palette = 8=#5c6370
+palette = 9=#e06c75
+palette = 10=#98c379
+palette = 11=#e5c07b
+palette = 12=#61afef
+palette = 13=#c678dd
+palette = 14=#56b6c2
+palette = 15=#dcdfe4
+
+# Shell integration (enables Shift+Enter for Claude Code)
+shell-integration = detect
+keybind = shift+enter=text:\x1b\r
