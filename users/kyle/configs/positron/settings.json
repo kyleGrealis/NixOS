@@ -135,7 +135,7 @@
             ".continue/**/*.yaml"
         ]
     },
-    "window.zoomLevel": 1,
+    "window.zoomLevel": 1.25,
     "remote.autoForwardPortsSource": "hybrid",
     "positron.r.customRootFolders": [
         "/home/kyle/dev/.Rbin"

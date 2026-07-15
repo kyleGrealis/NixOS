@@ -288,6 +288,52 @@ in
     ];
   };
 
+  services.syncthing = {
+    enable = true;
+    user = "kyle";
+    dataDir = "/home/kyle";
+    configDir = "/home/kyle/.local/state/syncthing";
+    guiAddress = "0.0.0.0:8384"; # Restrict access via Tailscale/UFW firewall
+    openDefaultPorts = true;
+    overrideDevices = true;
+    overrideFolders = true;
+    settings = {
+      devices = {
+        "nixMitters" = { id = "4M2NBJI-EZDAG3P-5UFM3AM-YWBX3E3-T6CNBYM-O6QLNKM-7QYEYXD-MFAY2AM"; };
+        "nixPi5" = { id = "HR7M54M-7UPVYDD-UNJUJAJ-QH4QOZI-UHV6HM4-HW66Z7A-D7KAPXO-LGZYCA5"; };
+        "windowsMitters" = { id = "PFYTBDZ-PLXFXTJ-UGOIKCR-RR3LZZB-4BQBNSH-QZWOGFR-AFWZ2QP-3GRRRAP"; };
+        "UH-JCX0TV3" = { id = "52ZVBSB-QSFLLK3-MWYTJF5-QQIFTFG-MQWJGRE-IBXO6TA-WLLU57F-U57Y4QZ"; };
+      };
+      folders = {
+        "claude-home" = {
+          path = "/home/kyle/.claude";
+          devices = [ "nixMitters" "UH-JCX0TV3" ];
+          ignorePerms = true;
+        };
+        "gemini-cli" = {
+          path = "/home/kyle/.gemini";
+          devices = [ "nixMitters" "UH-JCX0TV3" ];
+          ignorePerms = true;
+        };
+        "kyle-claude-projects" = {
+          path = "/home/kyle/.claude/projects";
+          devices = [ "nixMitters" "UH-JCX0TV3" ];
+          ignorePerms = true;
+        };
+        "kyle-compiler" = {
+          path = "/home/kyle/dev/agentic-memory-compiler";
+          devices = [ "nixMitters" "windowsMitters" ];
+          ignorePerms = true;
+        };
+        "ukczc-orzsn" = {
+          path = "/home/kyle/Documents/obsidian";
+          devices = [ "nixMitters" "windowsMitters" ];
+          ignorePerms = true;
+        };
+      };
+    };
+  };
+
   system.stateVersion = "25.11";
 
   services.samba = {
