@@ -301,6 +301,9 @@ in
     openDefaultPorts = true;
     overrideDevices = true;
     overrideFolders = true;
+    extraFlags = [
+      "--allow-newer-config"
+    ];
     settings = {
       devices = {
         "nixMitters" = { id = "4M2NBJI-EZDAG3P-5UFM3AM-YWBX3E3-T6CNBYM-O6QLNKM-7QYEYXD-MFAY2AM"; };
