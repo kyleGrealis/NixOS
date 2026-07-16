@@ -46,6 +46,7 @@ in
     uv               # Fast Python packaging (needed for memory compilers)
     btop             # System monitor
     delta            # Git diff tool
+    pnpm             # Fast Node.js package manager
     
     # Declarative user utilities
     backup-nixPi5-pkg
