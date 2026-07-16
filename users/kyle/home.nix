@@ -222,7 +222,8 @@
       templates = "${config.home.homeDirectory}/";
       videos = "${config.home.homeDirectory}/Videos";
       extraConfig = {
-        XDG_PROJECTS_DIR = "${config.home.homeDirectory}/Projects";
+        # Custom directory mapping pointing to dev/ (where active workspaces/repositories are stored)
+        XDG_PROJECTS_DIR = "${config.home.homeDirectory}/dev";
       };
     };
   };
