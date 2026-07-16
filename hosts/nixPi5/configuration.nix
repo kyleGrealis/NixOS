@@ -273,6 +273,9 @@ in
     rEnv
   ];
 
+  # Enable all terminfo packages (including Ghostty, Alacritty, Kitty, etc.) system-wide
+  environment.enableAllTerminfo = true;
+
   # Allow unfree packages (needed for cloudflared, etc.)
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
