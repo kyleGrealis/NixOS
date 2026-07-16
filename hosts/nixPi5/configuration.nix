@@ -165,9 +165,11 @@ in
       ExecStart = "${pkgs.nodejs_20}/bin/node /srv/shiny-server/lib/main.js /etc/shiny-server/shiny-server.conf";
       Restart = "always";
       RestartSec = "10s";
-      # Create logging directory if it doesn't exist
+      # Create logging and state directories if they don't exist
       LogsDirectory = "shiny-server";
       LogsDirectoryMode = "0755";
+      StateDirectory = "shiny-server";
+      StateDirectoryMode = "0755";
       StandardOutput = "journal";
       StandardError = "journal";
     };
