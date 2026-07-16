@@ -53,6 +53,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "backup";
           home-manager.users.kyle = import ./users/kyle/nixPi5.nix;
         }
       ];
@@ -68,6 +69,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "backup";
           home-manager.users.kyle = import ./users/kyle/nixPi5.nix;
         }
         ({ pkgs, ... }: {
