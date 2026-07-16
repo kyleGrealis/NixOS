@@ -265,6 +265,7 @@ in
     rclone
     sqlite
     nodejs_24
+    pnpm
     git-lfs
     gcc
     gnumake
