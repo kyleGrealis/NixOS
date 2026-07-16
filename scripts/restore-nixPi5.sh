@@ -41,6 +41,10 @@ cd /srv/shiny-server
 sudo -u $TARGET_USER npm rebuild
 cd -
 
+echo "--- Symlinking Sofia Database ---"
+rm -f /srv/shiny-server/sofia/sofia.sqlite
+ln -s /var/lib/shiny-data/sofia/sofia.sqlite /srv/shiny-server/sofia/sofia.sqlite
+
 # 4. Restore Bot Codebases & Repositories
 echo "--- Restoring geminiOS and milton codebases ---"
 sudo -u $TARGET_USER mkdir -p /home/$TARGET_USER/geminiOS /home/$TARGET_USER/milton
