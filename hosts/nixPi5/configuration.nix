@@ -168,8 +168,8 @@ in
       # Create logging directory if it doesn't exist
       LogsDirectory = "shiny-server";
       LogsDirectoryMode = "0755";
-      StandardOutput = "append:/var/log/shiny-server/shiny-server.log";
-      StandardError = "append:/var/log/shiny-server/shiny-server.log";
+      StandardOutput = "journal";
+      StandardError = "journal";
     };
   };
 
