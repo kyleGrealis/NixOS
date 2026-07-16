@@ -70,6 +70,7 @@ sudo cp -f /var/lib/tailscale/tailscaled.state "$BACKUP_DIR/configs/tailscaled.s
 
 # Copy shell and dev profiles containing credentials (excluding declarative configs)
 cp -f /home/kyle/.env "$BACKUP_DIR/dotfiles/.env" || true
+cp -f /home/kyle/.claude.json "$BACKUP_DIR/dotfiles/.claude.json" || true
 cp -f /home/kyle/dev/agentic-memory-compiler/.env "$BACKUP_DIR/configs/agentic-memory-compiler.env" || true
 cp -f /home/kyle/.Renviron "$BACKUP_DIR/dotfiles/.Renviron" || true
 
