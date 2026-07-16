@@ -13,10 +13,10 @@ let
     text = builtins.readFile ../../scripts/backup-wslNixMitters.sh;
   };
 
-  backup-dev = pkgs.writeShellApplication {
-    name = "backup-dev";
+  backup-wsl-dev = pkgs.writeShellApplication {
+    name = "backup-wsl-dev";
     runtimeInputs = [ pkgs.rsync pkgs.util-linux ];
-    text = builtins.readFile ../../scripts/backup-dev.sh;
+    text = builtins.readFile ../../scripts/backup-wsl-dev.sh;
   };
 
   backup-win-dev = pkgs.writeShellApplication {
@@ -115,7 +115,7 @@ in
     cifs-utils
     compile-memory
     backup-wslNixMitters
-    backup-dev
+    backup-wsl-dev
     backup-win-dev
   ];
 
