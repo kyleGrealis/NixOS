@@ -154,6 +154,7 @@ in
       R_HOME = "${rEnv}/lib/R";
       PATH = pkgs.lib.mkForce "${rEnv}/bin:${pkgs.nodejs_22}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin";
       SOFIA_DB_PATH = "/var/lib/shiny-data/sofia/sofia.sqlite";
+      RENV_ACTIVATION_DISABLE = "true";
     };
 
     serviceConfig = {
