@@ -6,6 +6,24 @@ let
     runtimeInputs = [ pkgs.uv pkgs.python3 ];
     text = builtins.readFile ../../scripts/compile-memory.sh;
   };
+
+  backup-wslNixMitters = pkgs.writeShellApplication {
+    name = "backup-wslNixMitters";
+    runtimeInputs = [ pkgs.util-linux ];
+    text = builtins.readFile ../../scripts/backup-wslNixMitters.sh;
+  };
+
+  backup-dev = pkgs.writeShellApplication {
+    name = "backup-dev";
+    runtimeInputs = [ pkgs.rsync pkgs.util-linux ];
+    text = builtins.readFile ../../scripts/backup-dev.sh;
+  };
+
+  backup-win-dev = pkgs.writeShellApplication {
+    name = "backup-win-dev";
+    runtimeInputs = [ pkgs.rsync pkgs.util-linux pkgs.findutils ];
+    text = builtins.readFile ../../scripts/backup-win-dev.sh;
+  };
 in
 {
   # Hostname configuration
@@ -96,6 +114,9 @@ in
     wget
     cifs-utils
     compile-memory
+    backup-wslNixMitters
+    backup-dev
+    backup-win-dev
   ];
 
   # Allow Unfree Packages
