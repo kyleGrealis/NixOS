@@ -38,7 +38,7 @@ rsync -avh "$BACKUP_DIR/static-slides-deployed/" /srv/slides/
 
 echo "--- Rebuilding Shiny Server Node dependencies ---"
 cd /srv/shiny-server
-sudo -u $TARGET_USER npm rebuild
+sudo -u $TARGET_USER nix-shell -p nodejs_20 --run "npm rebuild"
 cd -
 
 echo "--- Symlinking Sofia Database ---"

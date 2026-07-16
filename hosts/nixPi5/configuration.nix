@@ -213,7 +213,7 @@ in
       extraPackages = with pkgs; [
         git
         curl
-        nodejs_20
+        nodejs_24
         rEnv
         systemd
         sudo
@@ -229,7 +229,7 @@ in
       extraPackages = with pkgs; [
         git
         curl
-        nodejs_20
+        nodejs_24
         rEnv
         systemd
         sudo
@@ -245,7 +245,7 @@ in
       extraPackages = with pkgs; [
         git
         curl
-        nodejs_20
+        nodejs_24
         rEnv
         systemd
         sudo
@@ -262,7 +262,7 @@ in
     rsync
     rclone
     sqlite
-    nodejs_20
+    nodejs_24
     git-lfs
     gcc
     gnumake
