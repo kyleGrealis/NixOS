@@ -53,8 +53,10 @@ rsync -avh "$BACKUP_DIR/milton/" /home/$TARGET_USER/milton/
 chown -R $TARGET_UID:$TARGET_GID /home/$TARGET_USER/geminiOS /home/$TARGET_USER/milton
 
 # 5. Restore SQLite Databases
-echo "--- Restoring Sofia database ---"
-LATEST_SOFIA=$(ls -t "$BACKUP_DIR"/sqlite-backups/sofia-backup-*.sqlite 2>/dev/null | head -n 1)
+echo "--- Restoring SQLite Databases ---"
+sudo mkdir -p /var/lib/shiny-data/sofia
+# Locate the latest backup file matching the pattern sofia-backup-*.sqlite (including 2-hourly subdirectories)
+LATEST_SOFIA=$(find $BACKUP_DIR/sqlite-backups/ -name "sofia-backup-*.sqlite" 2>/dev/null | sort | tail -n 1)
 if [ -n "$LATEST_SOFIA" ]; then
     echo "Restoring Sofia database from $LATEST_SOFIA..."
     cp -f "$LATEST_SOFIA" /var/lib/shiny-data/sofia/sofia.sqlite
