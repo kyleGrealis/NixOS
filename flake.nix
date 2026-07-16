@@ -49,7 +49,7 @@
       ];
     };
 
-    nixosConfigurations.workMitters = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.wslNixMitters = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules = [
@@ -58,12 +58,12 @@
           wsl.enable = true;
           wsl.defaultUser = "kyle";
         }
-        ./hosts/workMitters/configuration.nix
+        ./hosts/wslNixMitters/configuration.nix
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.kyle = import ./users/kyle/workMitters.nix;
+          home-manager.users.kyle = import ./users/kyle/wslNixMitters.nix;
         }
       ];
     };
