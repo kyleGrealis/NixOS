@@ -70,6 +70,7 @@
     user = "kyle";
     dataDir = "/home/kyle";
     configDir = "/home/kyle/.local/state/syncthing";
+    guiAddress = "127.0.0.1:45517";
     openDefaultPorts = true;
     overrideDevices = true;
     overrideFolders = true;
