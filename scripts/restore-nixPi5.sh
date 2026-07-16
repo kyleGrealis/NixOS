@@ -37,7 +37,7 @@ rsync -avh "$BACKUP_DIR/static-slides-deployed/" /srv/slides/
 
 echo "--- Installing local Shiny dependencies ---"
 cd /srv/shiny-server
-sudo -u $TARGET_USER npm install shiny-server
+sudo -u $TARGET_USER npm install
 cd -
 
 # 4. Restore Bot Codebases & Repositories
