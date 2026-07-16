@@ -163,7 +163,11 @@ in
         NoNewPrivileges = true;
         LimitNOFILE = 4096;
       };
+      Install = {
+        WantedBy = [ "default.target" ];
+      };
     };
+
 
     milton = {
       Unit = {
@@ -187,6 +191,9 @@ in
         PrivateTmp = true;
         NoNewPrivileges = true;
         LimitNOFILE = 4096;
+      };
+      Install = {
+        WantedBy = [ "default.target" ];
       };
     };
   };
