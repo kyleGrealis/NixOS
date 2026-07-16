@@ -3,6 +3,7 @@
 This repository contains the unified, declarative NixOS and Home Manager configurations for the multi-machine fleet:
 *   **`nixMitters` (Laptop Workstation):** Runs `nixos-unstable` for rolling packages, NVIDIA drivers, GNOME desktop environment, and interactive data science development.
 *   **`nixPi5` (Raspberry Pi 5 Server):** Runs `nixos-25.11` (Stable) for hosting production bots (`geminiOS`, `milton`), Shiny Server, RevealJS static slides, and GitHub Actions self-hosted runners.
+*   **`wslNixMitters` (WSL2 Guest):** Runs NixOS-WSL under Windows 11, acting as the primary Linux shell environment for development on Windows.
 
 ---
 
@@ -17,17 +18,20 @@ The configuration is structured modularly to separate system-level hosts, user e
 │   ├── nixMitters/            # Laptop workstation host configuration
 │   │   ├── configuration.nix
 │   │   └── hardware-configuration.nix
-│   └── nixPi5/                # Headless Raspberry Pi 5 server configuration
-│       ├── configuration.nix
-│       ├── hardware-configuration.nix
-│       └── r-env.nix          # Production R packages definition
+│   ├── nixPi5/                # Headless Raspberry Pi 5 server configuration
+│   │   ├── configuration.nix
+│   │   ├── hardware-configuration.nix
+│   │   └── r-env.nix          # Production R packages definition
+│   └── wslNixMitters/         # WSL2 guest configuration
+│       └── configuration.nix
 ├── pkgs/
 │   └── google-sans.nix        # System-wide package overlays
 └── users/
     └── kyle/
         ├── home.nix           # Base/shared Home Manager configuration
         ├── nixMitters.nix     # nixMitters-specific user packages & GUI setups
-        └── nixPi5.nix         # nixPi5-specific user packages & systemd timers/services
+        ├── nixPi5.nix         # nixPi5-specific user packages & systemd timers/services
+        └── wslNixMitters.nix  # wslNixMitters-specific user packages & environment config
 ```
 
 ---
@@ -74,6 +78,9 @@ sudo nixos-rebuild switch --flake ~/NixOS#nixMitters
 
 # On Raspberry Pi 5 (or use the 'nix-switch' alias)
 sudo nixos-rebuild switch --flake ~/NixOS#nixPi5
+
+# On WSL (or use the 'nix-switch' alias)
+sudo nixos-rebuild switch --flake ~/NixOS#wslNixMitters
 ```
 
 Verify service statuses:
