@@ -161,7 +161,7 @@ in
       User = "kyle";
       Group = "kyle";
       WorkingDirectory = "/srv/shiny-server";
-      ExecStart = "${pkgs.nodejs_22}/bin/node /srv/shiny-server/node_modules/shiny-server/lib/main.js /etc/shiny-server/shiny-server.conf";
+      ExecStart = "${pkgs.nodejs_22}/bin/node /srv/shiny-server/lib/main.js /etc/shiny-server/shiny-server.conf";
       Restart = "always";
       RestartSec = "10s";
       # Create logging directory if it doesn't exist
