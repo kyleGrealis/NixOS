@@ -245,12 +245,14 @@ in
     };
   };
 
-  # Workstation-specific monitors configuration
+  # Workstation-specific configurations
   home.file = {
+    # Monitor layout configuration
     ".config/monitors.xml" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/monitors.xml";
       force = true;
     };
+    # Zoom meetings client configuration (keeps client settings mutable)
     ".config/zoomus.conf" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/zoom/zoomus.conf";
       force = true;
