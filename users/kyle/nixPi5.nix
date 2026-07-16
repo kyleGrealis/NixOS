@@ -139,7 +139,7 @@ in
         ExecStart = "${pkgs.nodejs_24}/bin/node --experimental-strip-types src/index.ts";
         Restart = "on-failure";
         RestartSec = "10s";
-        Environment = [ "NODE_ENV=production" ];
+        Environment = [ "NODE_ENV=production" "PATH=/run/current-system/sw/bin:/usr/bin" ];
         EnvironmentFile = "/home/kyle/geminiOS/.env";
 
         # Sandbox Rails
