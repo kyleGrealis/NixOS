@@ -14,18 +14,18 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
-      fsType = "ext4";
+    { device = lib.mkDefault "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
+      fsType = lib.mkDefault "ext4";
     };
 
   fileSystems."/boot/firmware" =
-    { device = "systemd-1";
-      fsType = "autofs";
+    { device = lib.mkDefault "systemd-1";
+      fsType = lib.mkDefault "autofs";
     };
 
   fileSystems."/mnt/piCloud" =
-    { device = "/dev/disk/by-uuid/767C-0994";
-      fsType = "exfat";
+    { device = lib.mkDefault "/dev/disk/by-uuid/767C-0994";
+      fsType = lib.mkDefault "exfat";
     };
 
   swapDevices = [ ];
