@@ -85,6 +85,11 @@ for file in .bashrc .bash_profile .bash_aliases .gitconfig .Rprofile .Renviron .
     fi
 done
 
+# User scripts
+echo "--- Restoring user scripts ---"
+mkdir -p /home/$TARGET_USER/scripts
+rsync -avh "$BACKUP_DIR/scripts/" /home/$TARGET_USER/scripts/
+
 # SSH Configuration
 mkdir -p /home/$TARGET_USER/.ssh
 cp -f "$BACKUP_DIR/ssh/config" /home/$TARGET_USER/.ssh/config
