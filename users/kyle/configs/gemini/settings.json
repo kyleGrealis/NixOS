@@ -1,0 +1,134 @@
+{
+  "allowNonWorkspaceAccess": true,
+  "experimental": {
+    "contextManagement": true
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node /home/kyle/Documents/obsidian/dev/agent-guidelines/settings/session-start.js",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  },
+  "mcpServers": {
+    "nixos": {
+      "command": "/run/current-system/sw/bin/nix",
+      "args": [
+        "run",
+        "github:utensils/mcp-nixos",
+        "--"
+      ],
+      "env": {
+        "PATH": "/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/bin:/bin"
+      }
+    }
+  },
+  "model.compressionThreshold": 0.3,
+  "model.maxSessionTurns": 10,
+  "permissions": {
+    "allow": [
+      "command(/nix/store)",
+      "command(agy)",
+      "command(bash)",
+      "command(cat)",
+      "command(claude)",
+      "command(compile-memory)",
+      "command(cp)",
+      "command(curl)",
+      "command(df)",
+      "command(diff)",
+      "command(du)",
+      "command(file)",
+      "command(find)",
+      "command(git)",
+      "command(grep)",
+      "command(head)",
+      "command(hostname)",
+      "command(journalctl)",
+      "command(ls)",
+      "command(mkdir)",
+      "command(mv)",
+      "command(nix)",
+      "command(nix-prefetch-url)",
+      "command(nix-shell)",
+      "command(nixos-rebuild)",
+      "command(sudo nixos-rebuild)",
+      "command(node)",
+      "command(npm)",
+      "command(npx)",
+      "command(pgrep)",
+      "command(ping)",
+      "command(pnpm)",
+      "command(ps)",
+      "command(Rscript)",
+      "command(radian)",
+      "command(echo)",
+      "command(scp)",
+      "command(sqlite3)",
+      "command(ssh)",
+      "command(sudo ufw)",
+      "command(systemctl)",
+      "command(tail)",
+      "command(tailscale)",
+      "command(trash-list)",
+      "command(trash-put)",
+      "command(ufw)",
+      "command(uname)",
+      "command(uv)",
+      "command(wc)",
+      "command(which)",
+      "command(yay)",
+      "command(nix-env)",
+      "command(nix-store)",
+      "command(flatpak)",
+      "command(dconf)",
+      "mcp(nixos/*)",
+      "command(wsl)",
+      "command(wsl.exe)",
+      "command(syncthing)"
+    ],
+    "deny": [
+      "command(rm)",
+      "command(Remove-Item)"
+    ]
+  },
+  "showFeedbackSurvey": false,
+  "trustedWorkspaces": [
+    "/home/kyle",
+    "/home/kyle/dev",
+    "/home/kyle/dev/typescript_playground",
+    "/home/kyle/NixOS",
+    "/home/kyle/dev/agentic-memory-compiler",
+    "/home/kyle/Documents/obsidian/dev/geminiOS",
+    "/home/kyle/Documents/obsidian/dev/NixOS",
+    "/home/kyle/dev/frogger-templates",
+    "/home/kyle/dev/r2-tracker",
+    "/home/kyle/dev/claude-code-router",
+    "/home/kyle/dev/sumExtras",
+    "/home/kyle/dev/kyleGrealis.github.io",
+    "/home/kyle/dev/r-accessories",
+    "/home/kyle/dev/baby-tracker",
+    "/home/kyle/dev/nascaR.data",
+    "/home/kyle/dev/froggeR",
+    "/home/kyle/dev/sofia",
+    "/home/kyle/dev/r2-dashboard",
+    "/home/kyle/dev/nhanes_aging",
+    "/home/kyle/dev/penguins",
+    "/home/kyle/dev/nhanesdata",
+    "/mnt/c/Users/kxg679/Documents/dev",
+    "/mnt/c/Users/kxg679/Documents/dev/project_vibe",
+    "/mnt/c/Users/kxg679/Documents/dev/nephro",
+    "/mnt/c/Users/kxg679/Documents/dev/public.ctn0094data",
+    "/mnt/c/Users/kxg679/Documents/dev/tidyREDCap",
+    "/mnt/c/Users/kxg679/Documents/dev/services_database",
+    "/mnt/c/Users/kxg679/Documents/obsidian",
+    "/mnt/c/Users/kxg679"
+  ]
+}

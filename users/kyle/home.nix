@@ -231,7 +231,7 @@
   # Declarative Out-of-Store Symlinks for agent settings sync via Obsidian
   home.file = {
     ".gemini/antigravity-cli/settings.json" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/obsidian/dev/agent-guidelines/settings/settings.json";
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/gemini/settings.json";
       force = true;
     };
     ".gemini/.stignore" = {
