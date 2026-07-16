@@ -251,5 +251,9 @@ in
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/monitors.xml";
       force = true;
     };
+    ".config/zoomus.conf" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/zoom/zoomus.conf";
+      force = true;
+    };
   };
 }
