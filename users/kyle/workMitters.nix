@@ -15,6 +15,8 @@
     positron-bin     # Positron IDE binary
     pre-commit       # Git hook manager
     quarto           # Publishing CLI
+    uv               # Fast Python packaging (needed for memory compilers)
+    python3          # Python interpreter
     
     # WSL Specific tools
     wl-clipboard     # Clipboard helper

@@ -1,5 +1,12 @@
 { config, pkgs, ... }:
 
+let
+  compile-memory = pkgs.writeShellApplication {
+    name = "compile-memory";
+    runtimeInputs = [ pkgs.uv pkgs.python3 ];
+    text = builtins.readFile ../../scripts/compile-memory.sh;
+  };
+in
 {
   # Hostname configuration
   networking.hostName = "wslNixMitters";
@@ -88,6 +95,7 @@
     curl
     wget
     cifs-utils
+    compile-memory
   ];
 
   # Allow Unfree Packages
