@@ -55,7 +55,6 @@
 
     # Migrated aliases
     discord = "(discord &>/dev/null &)";
-    te = "trash-empty";
   };
 }
 
