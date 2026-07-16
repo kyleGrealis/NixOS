@@ -5,6 +5,43 @@
   time.timeZone = "America/Chicago";
   i18n.defaultLocale = "en_US.UTF-8";
 
+  # Network Mount: piCloud SMB share on Pi5
+  fileSystems."/home/kyle/piCloud" = {
+    device = "//100.73.97.16/piCloud";
+    fsType = "cifs";
+    options = [
+      "credentials=/home/kyle/.smbcredentials"
+      "uid=1000"
+      "gid=100"
+      "x-systemd.automount"
+      "noauto"
+      "_netdev"
+      "x-systemd.idle-timeout=60"
+    ];
+  };
+
+  # Define user account details
+  users.groups.kyle = {};
+  users.users.kyle = {
+    isNormalUser = true;
+    group = "kyle";
+    description = "Kyle";
+    extraGroups = [ "wheel" "docker" ];
+  };
+
+  # Link Documents to the Windows user's Documents folder
+  system.activationScripts.linkDocuments = {
+    text = ''
+      mkdir -p /home/kyle
+      if [ ! -L /home/kyle/Documents ]; then
+        rm -rf /home/kyle/Documents
+        ln -sfn /mnt/c/Users/kxg679/Documents /home/kyle/Documents
+        chown -h kyle:users /home/kyle/Documents
+      fi
+    '';
+    deps = [];
+  };
+
   # Enable nix-ld to run unpatched dynamic binaries (like agy, etc.)
   programs.nix-ld.enable = true;
 
@@ -30,6 +67,7 @@
     micro
     curl
     wget
+    cifs-utils
   ];
 
   # Allow Unfree Packages
