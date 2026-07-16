@@ -213,6 +213,7 @@
     ".claude/settings.json" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/obsidian/dev/agent-guidelines/settings/claude-settings.json";
       force = true;
+    };
     ".config/Positron/User/settings.json" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/positron/settings.json";
       force = true;
@@ -241,5 +242,11 @@
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/fastfetch/config.jsonc";
       force = true;
     };
+  };
+
+  # Ensure user systemd services inherit nix-ld environment variables to execute unpatched dynamic binaries
+  systemd.user.sessionVariables = {
+    NIX_LD_LIBRARY_PATH = "/run/current-system/sw/share/nix-ld/lib";
+    NIX_LD = "/run/current-system/sw/share/nix-ld/lib/ld.so";
   };
 }
