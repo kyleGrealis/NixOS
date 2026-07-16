@@ -154,6 +154,7 @@ in
           "/home/kyle/Documents/obsidian"
           "/home/kyle/dev/agentic-memory-compiler"
           "/home/kyle/scripts"
+          "/home/kyle/NixOS"
           "/home/kyle/.config/gmail-mcp"
           "/home/kyle/.config/google-calendar-mcp"
           "/home/kyle/.config/google-drive-mcp"
