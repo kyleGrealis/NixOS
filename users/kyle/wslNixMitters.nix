@@ -12,7 +12,6 @@
     # Workstation Dev Tools
     antigravity      # Google Antigravity IDE package from Nixpkgs
     pandoc           # Document converter
-    positron-bin     # Positron IDE binary
     pre-commit       # Git hook manager
     quarto           # Publishing CLI
     uv               # Fast Python packaging (needed for memory compilers)
@@ -56,7 +55,6 @@
 
     # Migrated aliases
     discord = "(discord &>/dev/null &)";
-    code = "positron";
     te = "trash-empty";
   };
 }
