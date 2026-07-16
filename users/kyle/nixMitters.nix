@@ -328,4 +328,24 @@ in
       force = true;
     };
   };
+
+  # SSH Configuration
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    settings = {
+      "pi5" = {
+        HostName = "100.73.97.16";
+        User = "kyle";
+        IdentityFile = "~/.ssh/id_ed25519";
+        SetEnv = { TERM = "xterm-256color"; };
+      };
+      "nixMitters nixmitters" = {
+        HostName = "100.113.20.33";
+        User = "kyle";
+        IdentityFile = "~/.ssh/id_ed25519";
+        SetEnv = { TERM = "xterm-256color"; };
+      };
+    };
+  };
 }
