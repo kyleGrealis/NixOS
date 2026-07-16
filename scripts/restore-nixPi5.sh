@@ -45,16 +45,31 @@ chown -R $TARGET_UID:$TARGET_GID /home/$TARGET_USER/geminiOS /home/$TARGET_USER/
 
 # 5. Restore SQLite Databases
 echo "--- Restoring Sofia database ---"
-cp "$BACKUP_DIR/sqlite-backups"/sofia-backup-*.sqlite /var/lib/shiny-data/sofia/sofia.sqlite || {
+LATEST_SOFIA=$(ls -t "$BACKUP_DIR"/sqlite-backups/sofia-backup-*.sqlite 2>/dev/null | head -n 1)
+if [ -n "$LATEST_SOFIA" ]; then
+    echo "Restoring Sofia database from $LATEST_SOFIA..."
+    cp -f "$LATEST_SOFIA" /var/lib/shiny-data/sofia/sofia.sqlite
+    chown $TARGET_UID:$TARGET_GID /var/lib/shiny-data/sofia/sofia.sqlite
+    chmod 0600 /var/lib/shiny-data/sofia/sofia.sqlite
+else
     echo "Warning: Sofia database backup not found, please manually copy the latest version."
-}
-chown $TARGET_UID:$TARGET_GID /var/lib/shiny-data/sofia/sofia.sqlite
-chmod 0600 /var/lib/shiny-data/sofia/sofia.sqlite
+fi
 
 echo "--- Restoring Qwerty and Milton databases ---"
 mkdir -p /home/$TARGET_USER/geminiOS/data /home/$TARGET_USER/milton/data
-cp "$BACKUP_DIR/sqlite-backups"/qwerty-backup-*.sqlite /home/$TARGET_USER/geminiOS/data/qwerty.db || true
-cp "$BACKUP_DIR/sqlite-backups"/milton-backup-*.sqlite /home/$TARGET_USER/milton/data/milton.db || true
+
+LATEST_QWERTY=$(ls -t "$BACKUP_DIR"/sqlite-backups/qwerty-backup-*.sqlite 2>/dev/null | head -n 1)
+if [ -n "$LATEST_QWERTY" ]; then
+    echo "Restoring Qwerty database from $LATEST_QWERTY..."
+    cp -f "$LATEST_QWERTY" /home/$TARGET_USER/geminiOS/data/qwerty.db
+fi
+
+LATEST_MILTON=$(ls -t "$BACKUP_DIR"/sqlite-backups/milton-backup-*.sqlite 2>/dev/null | head -n 1)
+if [ -n "$LATEST_MILTON" ]; then
+    echo "Restoring Milton database from $LATEST_MILTON..."
+    cp -f "$LATEST_MILTON" /home/$TARGET_USER/milton/data/milton.db
+fi
+
 chown -R $TARGET_UID:$TARGET_GID /home/$TARGET_USER/geminiOS/data /home/$TARGET_USER/milton/data
 
 # 6. Restore User Configurations & Dotfiles
