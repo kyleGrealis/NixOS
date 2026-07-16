@@ -6,13 +6,13 @@ set -e
 SOURCE_DIR="$HOME/dev/"
 BACKUP_DIR="$HOME/piCloud/work-backup/dev/"
 
-echo "🔄 Syncing dev folder to piCloud backup..."
+echo "Syncing dev folder to piCloud backup..."
 echo "Source: $SOURCE_DIR"
 echo "Target: $BACKUP_DIR"
 
 # Check if piCloud is mounted
 if [ ! -d "$HOME/piCloud" ] || ! mountpoint -q "$HOME/piCloud"; then
-    echo "❌ ERROR: piCloud not mounted at $HOME/piCloud"
+    echo "ERROR: piCloud not mounted at $HOME/piCloud"
     exit 1
 fi
 
@@ -28,13 +28,12 @@ EXCLUDES=(
     --exclude='.quarto/'
 )
 
-rsync -rtH --delete --copy-unsafe-links --no-links --no-perms --no-owner --no-group --info=progress2 \
+if rsync -rtH --delete --copy-unsafe-links --no-links --no-perms --no-owner --no-group --info=progress2 \
     "${EXCLUDES[@]}" \
-    "$SOURCE_DIR" "$BACKUP_DIR"
-
-if [ $? -eq 0 ]; then
-    echo "✅ Dev folder backup completed successfully!"
+    "$SOURCE_DIR" "$BACKUP_DIR"; then
+    echo "Dev folder backup completed successfully!"
+    echo "Backup location: $BACKUP_DIR"
 else
-    echo "❌ Backup failed with exit code $?"
+    echo "Backup failed!"
     exit 1
 fi
