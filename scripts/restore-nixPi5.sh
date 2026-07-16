@@ -36,6 +36,11 @@ rsync -avh "$BACKUP_DIR/shiny-server-source/" /srv/shiny-server/
 rsync -avh "$BACKUP_DIR/shiny-apps-deployed/" /srv/shiny-server/
 rsync -avh "$BACKUP_DIR/static-slides-deployed/" /srv/slides/
 
+echo "--- Rebuilding Shiny Server Node dependencies ---"
+cd /srv/shiny-server
+sudo -u $TARGET_USER npm install
+cd -
+
 # 4. Restore Bot Codebases & Repositories
 echo "--- Restoring geminiOS and milton codebases ---"
 sudo -u $TARGET_USER mkdir -p /home/$TARGET_USER/geminiOS /home/$TARGET_USER/milton
