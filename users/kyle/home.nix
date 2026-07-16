@@ -154,22 +154,19 @@
   # SSH Configuration
   programs.ssh = {
     enable = true;
-    matchBlocks = {
+    enableDefaultConfig = false;
+    settings = {
       "pi5" = {
-        hostname = "100.73.97.16";
-        user = "kyle";
-        identityFile = "~/.ssh/id_ed25519";
-        extraOptions = {
-          SetEnv = "TERM=xterm-256color";
-        };
+        HostName = "100.73.97.16";
+        User = "kyle";
+        IdentityFile = "~/.ssh/id_ed25519";
+        SetEnv = { TERM = "xterm-256color"; };
       };
       "nixMitters nixmitters" = {
-        hostname = "100.113.20.33";
-        user = "kyle";
-        identityFile = "~/.ssh/id_ed25519";
-        extraOptions = {
-          SetEnv = "TERM=xterm-256color";
-        };
+        HostName = "100.113.20.33";
+        User = "kyle";
+        IdentityFile = "~/.ssh/id_ed25519";
+        SetEnv = { TERM = "xterm-256color"; };
       };
     };
   };
