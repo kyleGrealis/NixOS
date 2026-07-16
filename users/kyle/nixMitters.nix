@@ -257,5 +257,20 @@ in
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/zoom/zoomus.conf";
       force = true;
     };
+    # Google Chrome launch flags for Wayland and Touchpad gestures
+    ".config/chrome-flags.conf" = {
+      text = ''
+        --enable-features=TouchpadOverscrollHistoryNavigation,UseOzonePlatform
+        --ozone-platform=wayland
+      '';
+      force = true;
+    };
+    # Slack launch flags to enforce secure keyring storage
+    ".config/slack-flags.conf" = {
+      text = ''
+        --password-store=gnome-libsecret
+      '';
+      force = true;
+    };
   };
 }
