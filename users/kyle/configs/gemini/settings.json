@@ -34,7 +34,6 @@
   "model.maxSessionTurns": 10,
   "permissions": {
     "allow": [
-      "command(/nix/store)",
       "command(agy)",
       "command(bash)",
       "command(cat)",

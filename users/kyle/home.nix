@@ -22,6 +22,7 @@
     just             # Command runner
     lsof             # List open files
     micro            # Terminal text editor
+    nodejs           # Node.js runtime environment
     nmap             # Network scanner
     ripgrep          # Fast text search
     tcpdump          # Network packet analyzer
