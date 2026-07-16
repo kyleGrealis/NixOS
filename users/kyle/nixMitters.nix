@@ -172,8 +172,8 @@ in
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom9" = {
       binding = "<Super>c";
-      command = "google-chrome --app=https://www.claude.ai";
-      name = "Launch Claude AI";
+      command = "google-chrome --app=https://gemini.google.com";
+      name = "Launch Gemini";
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom10" = {
       binding = "<Super>slash";
