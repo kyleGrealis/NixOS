@@ -144,9 +144,6 @@ in
   # Passwordless Sudo for wheel group members
   security.sudo.wheelNeedsPassword = false;
 
-  # Home Manager global settings
-  home-manager.backupFileExtension = "backup";
-
   # Services
   services.resolved.enable = true;
   services.tailscale = {
