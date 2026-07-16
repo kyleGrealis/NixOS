@@ -12,6 +12,7 @@ in
   # Bootloader is managed by nixos-raspberrypi flake
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = pkgs.lib.mkForce false;
+  boot.loader.raspberry-pi.bootloader = "kernel";
 
   networking.hostName = "nixPi5";
   networking.networkmanager.enable = true;
