@@ -136,7 +136,7 @@ in
       Service = {
         Type = "simple";
         WorkingDirectory = "/home/kyle/geminiOS";
-        ExecStart = "${pkgs.nodejs_22}/bin/node --experimental-strip-types src/index.ts";
+        ExecStart = "${pkgs.nodejs_24}/bin/node --experimental-strip-types src/index.ts";
         Restart = "on-failure";
         RestartSec = "10s";
         Environment = [ "NODE_ENV=production" ];
@@ -174,7 +174,7 @@ in
       Service = {
         Type = "simple";
         WorkingDirectory = "/home/kyle/milton";
-        ExecStart = "${pkgs.nodejs_22}/bin/node --experimental-strip-types src/index.ts";
+        ExecStart = "${pkgs.nodejs_24}/bin/node --experimental-strip-types src/index.ts";
         Restart = "on-failure";
         RestartSec = "10s";
         Environment = [ "NODE_ENV=production" ];

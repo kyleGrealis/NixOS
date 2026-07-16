@@ -152,7 +152,7 @@ in
     
     environment = {
       R_HOME = "${rEnv}/lib/R";
-      PATH = pkgs.lib.mkForce "${rEnv}/bin:${pkgs.nodejs_22}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin";
+      PATH = pkgs.lib.mkForce "${rEnv}/bin:${pkgs.nodejs_24}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin";
       SOFIA_DB_PATH = "/var/lib/shiny-data/sofia/sofia.sqlite";
       R_PROFILE_USER = "/dev/null";
     };
@@ -162,7 +162,7 @@ in
       User = "kyle";
       Group = "kyle";
       WorkingDirectory = "/srv/shiny-server";
-      ExecStart = "${pkgs.nodejs_22}/bin/node /srv/shiny-server/lib/main.js /etc/shiny-server/shiny-server.conf";
+      ExecStart = "${pkgs.nodejs_24}/bin/node /srv/shiny-server/lib/main.js /etc/shiny-server/shiny-server.conf";
       Restart = "always";
       RestartSec = "10s";
       # Create logging directory if it doesn't exist
@@ -213,7 +213,7 @@ in
       extraPackages = with pkgs; [
         git
         curl
-        nodejs_22
+        nodejs_24
         rEnv
         systemd
         sudo
@@ -229,7 +229,7 @@ in
       extraPackages = with pkgs; [
         git
         curl
-        nodejs_22
+        nodejs_24
         rEnv
         systemd
         sudo
@@ -245,7 +245,7 @@ in
       extraPackages = with pkgs; [
         git
         curl
-        nodejs_22
+        nodejs_24
         rEnv
         systemd
         sudo
@@ -262,7 +262,7 @@ in
     rsync
     rclone
     sqlite
-    nodejs_22
+    nodejs_24
     git-lfs
     gcc
     gnumake
