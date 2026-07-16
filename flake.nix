@@ -15,9 +15,14 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixos-raspberrypi/nixpkgs";
     };
+
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, home-manager-stable, nixos-raspberrypi, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, home-manager-stable, nixos-raspberrypi, nixos-wsl, ... }@inputs: {
     nixosConfigurations.nixMitters = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
@@ -40,6 +45,25 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.kyle = import ./users/kyle/nixMitters.nix;
+        }
+      ];
+    };
+
+    nixosConfigurations.workMitters = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = { inherit inputs; };
+      modules = [
+        nixos-wsl.nixosModules.default
+        {
+          wsl.enable = true;
+          wsl.defaultUser = "kyle";
+        }
+        ./hosts/workMitters/configuration.nix
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.kyle = import ./users/kyle/workMitters.nix;
         }
       ];
     };
