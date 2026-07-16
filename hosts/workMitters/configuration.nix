@@ -78,6 +78,9 @@
     overrideFolders = false;
   };
 
+  # Enable Tailscale
+  services.tailscale.enable = true;
+
   # System-wide Packages
   environment.systemPackages = with pkgs; [
     git
