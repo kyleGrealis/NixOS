@@ -171,7 +171,7 @@ in
       name = "Launch Slack";
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom9" = {
-      binding = "<Super>c";
+      binding = "<Super>g";
       command = "google-chrome --app=https://gemini.google.com";
       name = "Launch Gemini";
     };
