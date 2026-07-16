@@ -244,8 +244,9 @@
     };
   };
 
-  # Ensure user systemd services inherit nix-ld environment variables to execute unpatched dynamic binaries
+  # Ensure user systemd services inherit nix-ld and standard PATH environment variables to execute binaries
   systemd.user.sessionVariables = {
+    PATH = "/run/wrappers/bin:${config.home.homeDirectory}/.nix-profile/bin:/etc/profiles/per-user/${config.home.username}/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin";
     NIX_LD_LIBRARY_PATH = "/run/current-system/sw/share/nix-ld/lib";
     NIX_LD = "/run/current-system/sw/share/nix-ld/lib/ld.so";
   };
