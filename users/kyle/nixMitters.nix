@@ -100,10 +100,65 @@ in
 
     "org/gnome/shell/keybindings" = {
       toggle-application-view = [ "<Super>space" ];
+      screenshot = [ "<Shift><Super>TouchpadOff" ];
+      show-screenshot-ui = [ "<Shift><Super>s" ];
+      toggle-quick-settings = [ "<Control><Alt>s" ];
     };
 
     "org/gnome/desktop/wm/preferences" = {
+      focus-mode = "sloppy";
       mouse-button-modifier = "<Super>";
+    };
+
+    "org/gnome/desktop/interface" = {
+      accent-color = "slate";
+      clock-format = "24h";
+      clock-show-weekday = true;
+      color-scheme = "prefer-dark";
+      enable-hot-corners = false;
+      show-battery-percentage = true;
+    };
+
+    "org/gnome/desktop/peripherals/touchpad" = {
+      speed = 0.1637931034482758;
+      two-finger-scrolling-enabled = true;
+    };
+
+    "org/gnome/settings-daemon/plugins/power" = {
+      sleep-inactive-ac-timeout = 1800;
+    };
+
+    "org/gnome/shell" = {
+      enabled-extensions = [
+        "pop-shell@system76.com"
+        "no-overview@fthx"
+        "no-title-bar@franglais125.gmail.com"
+      ];
+    };
+
+    "org/gnome/shell/extensions/pop-shell" = {
+      active-hint = true;
+      hint-color-rgba = "rgba(108,251,219,0.824324)";
+      tile-by-default = true;
+      gap-inner = 1;
+      show-skip-taskbar = true;
+      smart-gaps = false;
+      fullscreen-launcher = false;
+      mouse-cursor-focus-location = 4;
+      activate-launcher = [ "<Super>space" ];
+      focus-down = [ "<Super>Down" ];
+      focus-left = [ "<Super>Left" ];
+      focus-right = [ "<Super>Right" ];
+      focus-up = [ "<Super>Up" ];
+      tile-orientation = [ "<Super>j" ];
+      tile-move-down = [ "<Shift><Super>Down" ];
+      tile-move-down-global = [ "<Shift><Super>Down" ];
+      tile-move-left = [ "<Shift><Super>Left" ];
+      tile-move-left-global = [ "<Shift><Super>Left" ];
+      tile-move-right = [ "<Shift><Super>Right" ];
+      tile-move-right-global = [ "<Shift><Super>Right" ];
+      tile-move-up = [ "<Shift><Super>Up" ];
+      tile-move-up-global = [ "<Shift><Super>Up" ];
     };
 
     "org/gnome/settings-daemon/plugins/media-keys" = {
