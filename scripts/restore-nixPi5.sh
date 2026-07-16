@@ -45,6 +45,15 @@ echo "--- Symlinking Sofia Database ---"
 rm -f /srv/shiny-server/sofia/sofia.sqlite
 ln -s /var/lib/shiny-data/sofia/sofia.sqlite /srv/shiny-server/sofia/sofia.sqlite
 
+# Disable renv in deployed shiny apps to use system Nix R packages
+echo "--- Bypassing renv autoloading in deployed Shiny apps ---"
+for app_dir in /srv/shiny-server/*; do
+    if [ -d "$app_dir" ] && [ -f "$app_dir/.Rprofile" ]; then
+        echo "Disabling .Rprofile in $app_dir..."
+        mv -f "$app_dir/.Rprofile" "$app_dir/.Rprofile.disabled"
+    fi
+done
+
 # 4. Restore Bot Codebases & Repositories
 echo "--- Restoring geminiOS and milton codebases ---"
 sudo -u $TARGET_USER mkdir -p /home/$TARGET_USER/geminiOS /home/$TARGET_USER/milton
