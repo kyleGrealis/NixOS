@@ -244,4 +244,12 @@ in
       package = pkgs.morewaita-icon-theme;
     };
   };
+
+  # Workstation-specific monitors configuration
+  home.file = {
+    ".config/monitors.xml" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/monitors.xml";
+      force = true;
+    };
+  };
 }
