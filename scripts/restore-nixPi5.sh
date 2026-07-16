@@ -31,14 +31,10 @@ mkdir -p /srv/shiny-server /srv/slides /var/lib/shiny-data/sofia /var/lib/github
 chown -R $TARGET_UID:$TARGET_GID /srv/shiny-server /srv/slides /var/lib/shiny-data /var/lib/github-runners
 
 # 3. Restore Web Applications & Static Slides
-echo "--- Restoring Shiny Apps and RevealJS Slides ---"
+echo "--- Restoring Shiny Server Source, Apps, and RevealJS Slides ---"
+rsync -avh "$BACKUP_DIR/shiny-server-source/" /srv/shiny-server/
 rsync -avh "$BACKUP_DIR/shiny-apps-deployed/" /srv/shiny-server/
 rsync -avh "$BACKUP_DIR/static-slides-deployed/" /srv/slides/
-
-echo "--- Installing local Shiny dependencies ---"
-cd /srv/shiny-server
-sudo -u $TARGET_USER npm install
-cd -
 
 # 4. Restore Bot Codebases & Repositories
 echo "--- Restoring geminiOS and milton codebases ---"
