@@ -95,7 +95,7 @@ cp -f "$BACKUP_DIR/configs/rclone.conf" /home/$TARGET_USER/.config/rclone/rclone
 # Cloudflare Tunnel JSON Credentials
 mkdir -p /var/lib/cloudflare-tunnels/
 cp -f "$BACKUP_DIR/configs/"b76baf87-cb41-4c3e-98fd-27b806a38569.json /var/lib/cloudflare-tunnels/
-chown cloudflared:cloudflared /var/lib/cloudflare-tunnels/b76baf87-cb41-4c3e-98fd-27b806a38569.json
+chown root:root /var/lib/cloudflare-tunnels/b76baf87-cb41-4c3e-98fd-27b806a38569.json
 chmod 0400 /var/lib/cloudflare-tunnels/b76baf87-cb41-4c3e-98fd-27b806a38569.json
 
 # MCP Server Credentials
