@@ -150,6 +150,29 @@
     };
   };
 
+  # SSH Configuration
+  programs.ssh = {
+    enable = true;
+    matchBlocks = {
+      "pi5" = {
+        hostname = "100.73.97.16";
+        user = "kyle";
+        identityFile = "~/.ssh/id_ed25519";
+        extraOptions = {
+          SetEnv = "TERM=xterm-256color";
+        };
+      };
+      "nixMitters nixmitters" = {
+        hostname = "100.113.20.33";
+        user = "kyle";
+        identityFile = "~/.ssh/id_ed25519";
+        extraOptions = {
+          SetEnv = "TERM=xterm-256color";
+        };
+      };
+    };
+  };
+
   # Direnv Configuration
   programs.direnv = {
     enable = true;
@@ -253,6 +276,46 @@
     };
     ".config/fastfetch/config.jsonc" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/fastfetch/config.jsonc";
+      force = true;
+    };
+    ".Rprofile" = {
+      text = ''
+        if (interactive()) {
+          suppressMessages(require(devtools))
+          suppressMessages(require(tidyverse))
+        }
+
+        # set the default CRAN mirror
+        local({
+          r <- getOption("repos")
+          r["CRAN"] <- "https://cran.rstudio.com/"
+          options(repos = r)
+        })
+
+        options(
+          prompt = ">> ",
+          shiny.port = 7209,
+          digits = 4
+        )
+
+        options(
+          usethis.full_name = 'Kyle Grealis',
+          usethis.description = list(
+            `Authors@R` = 'person(
+              given = "Kyle",
+              family = "Grealis",
+              role = c("aut", "cre"),
+              email = "kyle@kylegrealis.com",
+              comment = c(ORCID = "0000-0002-9223-8854")
+            )'
+          )
+        )
+
+        # VS Code R Session Watcher
+        if (interactive() && Sys.getenv("RSTUDIO") == "") {
+          source("~/.vscode-R/init_radian.R")
+        }
+      '';
       force = true;
     };
   };

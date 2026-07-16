@@ -21,30 +21,20 @@ mkdir -p "$BACKUP_DIR/dotfiles"
 mkdir -p "$BACKUP_DIR/ssh"
 mkdir -p "$BACKUP_DIR/configs"
 
-# 1. Copy shell and dev profiles
-cp -f /home/kyle/.bashrc "$BACKUP_DIR/dotfiles/.bashrc" || true
-cp -f /home/kyle/.bash_profile "$BACKUP_DIR/dotfiles/.bash_profile" || true
-cp -f /home/kyle/.zshrc "$BACKUP_DIR/dotfiles/.zshrc" || true
-cp -f /home/kyle/.bash_aliases "$BACKUP_DIR/dotfiles/.bash_aliases" || true
-cp -f /home/kyle/.gitconfig "$BACKUP_DIR/dotfiles/.gitconfig" || true
-cp -f /home/kyle/.Rprofile "$BACKUP_DIR/dotfiles/.Rprofile" || true
+# 1. Copy mutable shell and dev environment credentials/secrets
 cp -f /home/kyle/.Renviron "$BACKUP_DIR/dotfiles/.Renviron" || true
 
-# 2. Copy public SSH metadata
-cp -f /home/kyle/.ssh/config "$BACKUP_DIR/ssh/config" || true
+# 2. Copy public SSH identity metadata (excluding private key and declarative config)
 cp -f /home/kyle/.ssh/authorized_keys "$BACKUP_DIR/ssh/authorized_keys" || true
 cp -f /home/kyle/.ssh/id_ed25519.pub "$BACKUP_DIR/ssh/id_ed25519.pub" || true
 
-# 3. Copy Agent Configurations
-cp -f /home/kyle/.gemini/antigravity-cli/settings.json "$BACKUP_DIR/configs/agy-settings.json" || true
-cp -f /home/kyle/.claude/settings.json "$BACKUP_DIR/configs/claude-settings.json" || true
+# Note: Agent settings (agy-settings.json, claude-settings.json) are skipped as they are managed via declarative Home Manager symlinks to the Obsidian vault.
 
-# 4. Copy Syncthing folder configurations
+# 3. Copy Syncthing cryptographic identity (keys only, folder structure is managed by Nix)
 if [ -d "/home/kyle/.config/syncthing" ]; then
     mkdir -p "$BACKUP_DIR/configs/syncthing"
-    rsync -rtv --no-links --no-perms --no-owner --no-group --modify-window=2 \
-        --exclude="index-*" --exclude="*.db" \
-        /home/kyle/.config/syncthing/ "$BACKUP_DIR/configs/syncthing/" || true
+    cp -f /home/kyle/.config/syncthing/key.pem "$BACKUP_DIR/configs/syncthing/key.pem" || true
+    cp -f /home/kyle/.config/syncthing/cert.pem "$BACKUP_DIR/configs/syncthing/cert.pem" || true
 fi
 
 echo "============================================="

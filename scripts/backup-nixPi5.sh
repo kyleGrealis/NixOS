@@ -52,12 +52,8 @@ mkdir -p "$BACKUP_DIR/dotfiles"
 mkdir -p "$BACKUP_DIR/ssh"
 mkdir -p "$BACKUP_DIR/configs"
 
-# Copy configurations
-cp -f /etc/cloudflared/config.yml "$BACKUP_DIR/configs/cloudflared-config.yml" || true
-cp -f /etc/shiny-server/shiny-server.conf "$BACKUP_DIR/configs/shiny-server.conf" || true
+# Copy configurations (excluding declarative settings managed by Nix/Home Manager)
 cp -f /home/kyle/.config/rclone/rclone.conf "$BACKUP_DIR/configs/rclone.conf" || true
-cp -f /home/kyle/.gemini/antigravity-cli/settings.json "$BACKUP_DIR/configs/agy-settings.json" || true
-cp -f /home/kyle/.claude/settings.json "$BACKUP_DIR/configs/claude-settings.json" || true
 cp -f /home/kyle/.cloudflared/*.json "$BACKUP_DIR/configs/" || true
 
 # Copy Antigravity CLI and Gemini/Claude authentication credentials
@@ -72,28 +68,14 @@ cp -f /home/kyle/.claude/settings.local.json "$BACKUP_DIR/configs/claude/setting
 echo "--- Backing up Tailscale State ---"
 sudo cp -f /var/lib/tailscale/tailscaled.state "$BACKUP_DIR/configs/tailscaled.state" || true
 
-# Copy shell and dev profiles (including critical .env variables file!)
+# Copy shell and dev profiles containing credentials (excluding declarative configs)
 cp -f /home/kyle/.env "$BACKUP_DIR/dotfiles/.env" || true
 cp -f /home/kyle/dev/agentic-memory-compiler/.env "$BACKUP_DIR/configs/agentic-memory-compiler.env" || true
-cp -f /home/kyle/.bashrc "$BACKUP_DIR/dotfiles/.bashrc" || true
-cp -f /home/kyle/.bash_profile "$BACKUP_DIR/dotfiles/.bash_profile" || true
-cp -f /home/kyle/.zshrc "$BACKUP_DIR/dotfiles/.zshrc" || true
-cp -f /home/kyle/.bash_aliases "$BACKUP_DIR/dotfiles/.bash_aliases" || true
-cp -f /home/kyle/.gitconfig "$BACKUP_DIR/dotfiles/.gitconfig" || true
-cp -f /home/kyle/.Rprofile "$BACKUP_DIR/dotfiles/.Rprofile" || true
 cp -f /home/kyle/.Renviron "$BACKUP_DIR/dotfiles/.Renviron" || true
 
-# Copy public SSH metadata (excluding private key)
-cp -f /home/kyle/.ssh/config "$BACKUP_DIR/ssh/config" || true
+# Copy public SSH metadata (excluding private key and declarative ~/.ssh/config)
 cp -f /home/kyle/.ssh/authorized_keys "$BACKUP_DIR/ssh/authorized_keys" || true
 cp -f /home/kyle/.ssh/id_ed25519.pub "$BACKUP_DIR/ssh/id_ed25519.pub" || true
-
-# Copy active custom user scripts (critical!)
-if [ -d "/home/kyle/scripts" ]; then
-    mkdir -p "$BACKUP_DIR/scripts"
-    rsync -rtv --no-links --no-perms --no-owner --no-group --modify-window=2 \
-        /home/kyle/scripts/ "$BACKUP_DIR/scripts/" || true
-fi
 
 # Copy active MCP server credential/token folders
 for mcp in gmail-mcp google-calendar-mcp google-drive-mcp github-mcp; do
@@ -105,27 +87,12 @@ for mcp in gmail-mcp google-calendar-mcp google-drive-mcp github-mcp; do
     fi
 done
 
-# Copy Syncthing folder configurations (excluding database index files to keep it lightweight)
+# Copy Syncthing cryptographic identity (keys only, folder structure is managed by Nix)
 if [ -d "/home/kyle/.local/state/syncthing" ]; then
     mkdir -p "$BACKUP_DIR/configs/syncthing"
-    rsync -rtv --no-links --no-perms --no-owner --no-group --modify-window=2 \
-        --exclude="index-*" --exclude="*.db" \
-        /home/kyle/.local/state/syncthing/ "$BACKUP_DIR/configs/syncthing/" || true
+    cp -f /home/kyle/.local/state/syncthing/key.pem "$BACKUP_DIR/configs/syncthing/key.pem" || true
+    cp -f /home/kyle/.local/state/syncthing/cert.pem "$BACKUP_DIR/configs/syncthing/cert.pem" || true
 fi
-
-# Copy systemd units
-rsync -rtv --no-links --no-perms --no-owner --no-group --modify-window=2 \
-    /etc/systemd/system/shiny-server.service \
-    /etc/systemd/system/slides-server.service \
-    /etc/systemd/system/cloudflared.service \
-    /etc/systemd/system/actions.runner.*.service \
-    "$BACKUP_DIR/systemd/" || true
-
-# Copy systemd user units (bot services and maintenance tasks)
-echo "--- Backing up systemd user units ---"
-mkdir -p "$BACKUP_DIR/systemd-user"
-cp -f /home/kyle/.config/systemd/user/*.service "$BACKUP_DIR/systemd-user/" || true
-cp -f /home/kyle/.config/systemd/user/*.timer "$BACKUP_DIR/systemd-user/" || true
 
 # Safe Online SQLite Backup for Qwerty and Milton Databases
 echo "--- Performing Online SQLite Backup of Qwerty & Milton ---"
