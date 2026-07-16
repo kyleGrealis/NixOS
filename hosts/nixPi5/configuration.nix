@@ -276,6 +276,9 @@ in
   # Enable all terminfo packages (including Ghostty, Alacritty, Kitty, etc.) system-wide
   environment.enableAllTerminfo = true;
 
+  # Enable nix-ld to run generic pre-compiled dynamically linked binaries
+  programs.nix-ld.enable = true;
+
   # Allow unfree packages (needed for cloudflared, etc.)
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
