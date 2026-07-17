@@ -1,6 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, nixpkgs-2511, ... }:
 
 let
+  pkgs-2511 = import nixpkgs-2511 { system = pkgs.stdenv.hostPlatform.system; };
   rEnv = pkgs.rEnv or (import ./r-env.nix { inherit pkgs; });
 in
 {
@@ -154,7 +155,7 @@ in
     
     environment = {
       R_HOME = "${rEnv}/lib/R";
-      PATH = pkgs.lib.mkForce "${rEnv}/bin:${pkgs.nodejs_20}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin";
+      PATH = pkgs.lib.mkForce "${rEnv}/bin:${pkgs-2511.nodejs_20}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin";
       SOFIA_DB_PATH = "/var/lib/shiny-data/sofia/sofia.sqlite";
       R_PROFILE_USER = "/dev/null";
     };
@@ -164,7 +165,7 @@ in
       User = "kyle";
       Group = "kyle";
       WorkingDirectory = "/srv/shiny-server";
-      ExecStart = "${pkgs.nodejs_20}/bin/node /srv/shiny-server/lib/main.js /etc/shiny-server/shiny-server.conf";
+      ExecStart = "${pkgs-2511.nodejs_20}/bin/node /srv/shiny-server/lib/main.js /etc/shiny-server/shiny-server.conf";
       Restart = "always";
       RestartSec = "10s";
       # Create logging and state directories if they don't exist
@@ -285,8 +286,6 @@ in
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
     "docker-28.5.2"
-    "nodejs-20.20.2"
-    "nodejs-slim-20.20.2"
   ];
 
   # Nix Settings (Enable Flakes and Optimize Store)

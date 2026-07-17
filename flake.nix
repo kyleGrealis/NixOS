@@ -6,6 +6,8 @@
     
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
     
+    nixpkgs-2511.url = "github:nixos/nixpkgs/nixos-25.11";
+    
     nixos-raspberrypi = {
       url = "github:nvmd/nixos-raspberrypi/main";
       inputs.nixpkgs.follows = "nixpkgs-stable";
