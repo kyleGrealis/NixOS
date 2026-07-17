@@ -198,6 +198,7 @@ in
   # SSH Configuration (Stable matchBlocks for Pi5)
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
     matchBlocks = {
       "pi5" = {
         hostname = "100.73.97.16";
