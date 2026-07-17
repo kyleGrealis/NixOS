@@ -241,7 +241,7 @@ in
   # Stop CIFS automount and unmount share on suspend to prevent kernel freezes, restart on resume
   systemd.services.cifs-suspend-handler = {
     description = "Stop CIFS automount and unmount share on suspend, restart on resume";
-    before = [ "sleep.target" ];
+    before = [ "systemd-suspend.service" "systemd-hibernate.service" "systemd-hybrid-sleep.service" ];
     wantedBy = [ "sleep.target" ];
     unitConfig.StopWhenUnneeded = true;
     serviceConfig = {
