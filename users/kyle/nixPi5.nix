@@ -195,22 +195,22 @@ in
 
   };
 
-  # SSH Configuration (Stable matchBlocks for Pi5)
+  # SSH Configuration (Pi5 settings)
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks = {
+    settings = {
       "pi5" = {
-        hostname = "100.73.97.16";
-        user = "kyle";
-        identityFile = "~/.ssh/id_ed25519";
-        setEnv = { TERM = "xterm-256color"; };
+        HostName = "100.73.97.16";
+        User = "kyle";
+        IdentityFile = "~/.ssh/id_ed25519";
+        SetEnv = { TERM = "xterm-256color"; };
       };
       "nixMitters nixmitters" = {
-        hostname = "100.113.20.33";
-        user = "kyle";
-        identityFile = "~/.ssh/id_ed25519";
-        setEnv = { TERM = "xterm-256color"; };
+        HostName = "100.113.20.33";
+        User = "kyle";
+        IdentityFile = "~/.ssh/id_ed25519";
+        SetEnv = { TERM = "xterm-256color"; };
       };
     };
   };

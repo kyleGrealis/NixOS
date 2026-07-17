@@ -13,6 +13,7 @@ in
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = pkgs.lib.mkForce false;
   boot.loader.raspberry-pi.bootloader = "kernel";
+  boot.zfs.forceImportRoot = false;
 
   networking.hostName = "nixPi5";
   networking.networkmanager.enable = true;
@@ -153,7 +154,7 @@ in
     
     environment = {
       R_HOME = "${rEnv}/lib/R";
-      PATH = pkgs.lib.mkForce "${rEnv}/bin:${pkgs.nodejs_20}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin";
+      PATH = pkgs.lib.mkForce "${rEnv}/bin:${pkgs.nodejs_24}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin";
       SOFIA_DB_PATH = "/var/lib/shiny-data/sofia/sofia.sqlite";
       R_PROFILE_USER = "/dev/null";
     };
@@ -163,7 +164,7 @@ in
       User = "kyle";
       Group = "kyle";
       WorkingDirectory = "/srv/shiny-server";
-      ExecStart = "${pkgs.nodejs_20}/bin/node /srv/shiny-server/lib/main.js /etc/shiny-server/shiny-server.conf";
+      ExecStart = "${pkgs.nodejs_24}/bin/node /srv/shiny-server/lib/main.js /etc/shiny-server/shiny-server.conf";
       Restart = "always";
       RestartSec = "10s";
       # Create logging and state directories if they don't exist

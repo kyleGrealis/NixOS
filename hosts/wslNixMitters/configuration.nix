@@ -22,6 +22,7 @@ in
 {
   # Hostname configuration
   networking.hostName = "wslNixMitters";
+  boot.zfs.forceImportRoot = false;
 
   # Time Zone and Locale
   time.timeZone = "America/Chicago";

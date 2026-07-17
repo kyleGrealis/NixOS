@@ -67,6 +67,7 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelParams = [ "zswap.enabled=0" "quiet" "splash" ];
   boot.plymouth.enable = true;
+  boot.zfs.forceImportRoot = false;
 
   # Enable ARM64 emulation for building Raspberry Pi images
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];

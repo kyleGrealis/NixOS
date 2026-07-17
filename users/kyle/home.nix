@@ -191,6 +191,7 @@
     userDirs = {
       enable = true;
       createDirectories = true;
+      setSessionVariables = true;
       desktop = "${config.home.homeDirectory}/Desktop";
       documents = "${config.home.homeDirectory}/Documents";
       download = "${config.home.homeDirectory}/Downloads";
@@ -201,7 +202,7 @@
       videos = "${config.home.homeDirectory}/Videos";
       extraConfig = {
         # Custom directory mapping pointing to dev/ (where active workspaces/repositories are stored)
-        XDG_PROJECTS_DIR = "${config.home.homeDirectory}/dev";
+        PROJECTS = "${config.home.homeDirectory}/dev";
       };
     };
   };
