@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 
 let
-  backup-nixPi5-pkg = pkgs.writeShellApplication {
-    name = "backup-nixPi5";
+  backup-piMitters-pkg = pkgs.writeShellApplication {
+    name = "backup-piMitters";
     runtimeInputs = [
       pkgs.rsync
       pkgs.sqlite
@@ -12,7 +12,7 @@ let
       pkgs.coreutils
       pkgs.findutils
     ];
-    text = builtins.readFile ../../scripts/backup-nixPi5.sh;
+    text = builtins.readFile ../../scripts/backup-piMitters.sh;
   };
 
   backup-sofia-q2h-pkg = pkgs.writeShellApplication {
@@ -43,7 +43,7 @@ in
     pnpm             # Fast Node.js package manager
     
     # Declarative user utilities
-    backup-nixPi5-pkg
+    backup-piMitters-pkg
     backup-sofia-q2h-pkg
     get-carried-over-tasks-pkg
   ];
@@ -51,7 +51,7 @@ in
   programs.bash.shellAliases = {
     # Headless/server-specific aliases
     copy = "tee >(osc-copy)";
-    nix-switch = "sudo nixos-rebuild switch --flake ~/NixOS#nixPi5";
+    nix-switch = "sudo nixos-rebuild switch --flake ~/NixOS#piMitters";
   };
 
   programs.bash.initExtra = ''
@@ -67,15 +67,15 @@ in
 
   # Declarative User Systemd Services
   systemd.user.services = {
-    backup-nixPi5 = {
+    backup-piMitters = {
       Unit = {
-        Description = "Daily Backup of nixPi5 Services and Sync to Google Drive";
+        Description = "Daily Backup of piMitters Services and Sync to Google Drive";
         After = [ "network-online.target" ];
         Wants = [ "network-online.target" ];
       };
       Service = {
         Type = "oneshot";
-        ExecStart = "${backup-nixPi5-pkg}/bin/backup-nixPi5";
+        ExecStart = "${backup-piMitters-pkg}/bin/backup-piMitters";
       };
     };
 
@@ -166,9 +166,9 @@ in
 
   # Declarative User Systemd Timers
   systemd.user.timers = {
-    backup-nixPi5 = {
+    backup-piMitters = {
       Unit = {
-        Description = "Daily Backup of nixPi5 Services Timer";
+        Description = "Daily Backup of piMitters Services Timer";
       };
       Timer = {
         OnCalendar = "*-*-* 02:00:00";
@@ -200,7 +200,7 @@ in
     enable = true;
     enableDefaultConfig = false;
     settings = {
-      "pi5" = {
+      "pi5 piMitters pimitters" = {
         HostName = "100.73.97.16";
         User = "kyle";
         IdentityFile = "~/.ssh/id_ed25519";

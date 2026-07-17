@@ -334,7 +334,7 @@ in
     enable = true;
     enableDefaultConfig = false;
     settings = {
-      "pi5" = {
+      "pi5 piMitters pimitters" = {
         HostName = "100.73.97.16";
         User = "kyle";
         IdentityFile = "~/.ssh/id_ed25519";

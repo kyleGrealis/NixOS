@@ -16,7 +16,7 @@ in
   boot.loader.raspberry-pi.bootloader = "kernel";
   boot.zfs.forceImportRoot = false;
 
-  networking.hostName = "nixPi5";
+  networking.hostName = "piMitters";
   networking.networkmanager.enable = true;
 
   # Static IP configuration for home network
@@ -319,7 +319,7 @@ in
     settings = {
       devices = {
         "nixMitters" = { id = "4M2NBJI-EZDAG3P-5UFM3AM-YWBX3E3-T6CNBYM-O6QLNKM-7QYEYXD-MFAY2AM"; };
-        "nixPi5" = { id = "HR7M54M-7UPVYDD-UNJUJAJ-QH4QOZI-UHV6HM4-HW66Z7A-D7KAPXO-LGZYCA5"; };
+        "piMitters" = { id = "HR7M54M-7UPVYDD-UNJUJAJ-QH4QOZI-UHV6HM4-HW66Z7A-D7KAPXO-LGZYCA5"; };
         "windowsMitters" = { id = "PFYTBDZ-PLXFXTJ-UGOIKCR-RR3LZZB-4BQBNSH-QZWOGFR-AFWZ2QP-3GRRRAP"; };
         "UH-JCX0TV3" = { id = "52ZVBSB-QSFLLK3-MWYTJF5-QQIFTFG-MQWJGRE-IBXO6TA-WLLU57F-U57Y4QZ"; };
       };
