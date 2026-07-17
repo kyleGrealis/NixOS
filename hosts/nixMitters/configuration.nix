@@ -33,12 +33,6 @@ let
     text = builtins.readFile ../../scripts/vpn-status.sh;
   };
 
-  compile-memory = pkgs.writeShellApplication {
-    name = "compile-memory";
-    runtimeInputs = [ pkgs.uv pkgs.python3 ];
-    text = builtins.readFile ../../scripts/compile-memory.sh;
-  };
-
   taillog = pkgs.writeShellApplication {
     name = "taillog";
     runtimeInputs = [ pkgs.coreutils ];
@@ -302,9 +296,7 @@ in
     tailscale-protect
     vpn-status
     taillog
-    
-    # Memory compiler launcher
-    compile-memory
+
   ];
 
   # Allow Unfree Packages (needed for Nvidia, Positron, etc.)

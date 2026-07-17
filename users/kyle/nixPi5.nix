@@ -26,12 +26,6 @@ let
     text = builtins.readFile ../../scripts/backup-sofia-q2h.sh;
   };
 
-  compile-memory-pkg = pkgs.writeShellApplication {
-    name = "compile-memory";
-    runtimeInputs = [ pkgs.uv pkgs.python3 ];
-    text = builtins.readFile ../../scripts/compile-memory.sh;
-  };
-
   get-carried-over-tasks-pkg = pkgs.writers.writePython3Bin "get-carried-over-tasks" { } (builtins.readFile ../../scripts/get-carried-over-tasks.py);
 in
 {
@@ -51,7 +45,6 @@ in
     # Declarative user utilities
     backup-nixPi5-pkg
     backup-sofia-q2h-pkg
-    compile-memory-pkg
     get-carried-over-tasks-pkg
   ];
 
@@ -98,34 +91,6 @@ in
       };
     };
 
-    compile-memory = {
-      Unit = {
-        Description = "Compile daily memory logs into knowledge base";
-      };
-      Service = {
-        Type = "oneshot";
-        WorkingDirectory = "/home/kyle/dev/agentic-memory-compiler";
-        ExecStart = "${compile-memory-pkg}/bin/compile-memory";
-        Environment = [
-          "PATH=${pkgs.uv}/bin:${pkgs.python3}/bin:/run/current-system/sw/bin:/usr/bin"
-          "COMPILE_USE_ANTHROPIC=true"
-        ];
-      };
-    };
-
-    flush-agy = {
-      Unit = {
-        Description = "Flush pending Agy/Gemini sessions into daily logs";
-      };
-      Service = {
-        Type = "oneshot";
-        WorkingDirectory = "/home/kyle/dev/agentic-memory-compiler";
-        ExecStart = "${pkgs.uv}/bin/uv run python scripts/flush_gemini.py";
-        Environment = [
-          "PATH=${pkgs.uv}/bin:${pkgs.python3}/bin:/run/current-system/sw/bin:/usr/bin"
-        ];
-      };
-    };
 
     geminios = {
       Unit = {
@@ -227,31 +192,7 @@ in
       };
     };
 
-    compile-memory = {
-      Unit = {
-        Description = "Run memory compiler at 3am daily";
-      };
-      Timer = {
-        OnCalendar = "*-*-* 03:00:00";
-        Persistent = true;
-      };
-      Install = {
-        WantedBy = [ "timers.target" ];
-      };
-    };
 
-    flush-agy = {
-      Unit = {
-        Description = "Flush Agy/Gemini sessions every 30 minutes";
-      };
-      Timer = {
-        OnCalendar = "*:00,30";
-        Persistent = true;
-      };
-      Install = {
-        WantedBy = [ "timers.target" ];
-      };
-    };
   };
 
   # SSH Configuration (Stable matchBlocks for Pi5)

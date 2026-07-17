@@ -1,12 +1,6 @@
 { config, pkgs, ... }:
 
 let
-  compile-memory = pkgs.writeShellApplication {
-    name = "compile-memory";
-    runtimeInputs = [ pkgs.uv pkgs.python3 ];
-    text = builtins.readFile ../../scripts/compile-memory.sh;
-  };
-
   backup-wslNixMitters = pkgs.writeShellApplication {
     name = "backup-wslNixMitters";
     runtimeInputs = [ pkgs.util-linux ];
@@ -113,7 +107,6 @@ in
     curl
     wget
     cifs-utils
-    compile-memory
     backup-wslNixMitters
     backup-wsl-dev
     backup-win-dev
