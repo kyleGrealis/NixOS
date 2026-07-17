@@ -242,6 +242,7 @@ in
     description = "Stop CIFS automount and unmount share on suspend, restart on resume";
     before = [ "sleep.target" ];
     wantedBy = [ "sleep.target" ];
+    unitConfig.StopWhenUnneeded = true;
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
