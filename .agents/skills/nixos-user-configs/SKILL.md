@@ -117,7 +117,7 @@ Accepting CLI workspace trust prompts or CLI setting writes can cause the local 
 ---
 
 ## 7. Version Mismatches in Home Manager Modules (e.g., programs.ssh.settings)
-When managing configurations across a fleet running different channel versions (e.g. `nixMitters` on unstable `26.11` vs `nixPi5` on stable `25.11`), syntax extensions added in newer Home Manager releases will cause hard evaluation failures on older systems.
+When managing configurations across a fleet running different channel versions (e.g. `nixMitters` on unstable `26.11` vs `piMitters` on stable `25.11`), syntax extensions added in newer Home Manager releases will cause hard evaluation failures on older systems.
 
 ### The Problem:
 Using `programs.ssh.settings` resolves deprecation warnings on the unstable channel but triggers a hard `The option does not exist` evaluation failure on stable channels where only `programs.ssh.matchBlocks` is supported.

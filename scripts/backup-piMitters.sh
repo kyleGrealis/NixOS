@@ -5,11 +5,11 @@
 set -euo pipefail
 
 # Logging
-LOG_FILE="/home/kyle/backup-nixPi5.log"
+LOG_FILE="/home/kyle/backup-piMitters.log"
 exec > >(tee -ia "$LOG_FILE") 2>&1
 
 echo "============================================="
-echo "Starting nixPi5 Backup: $(date)"
+echo "Starting piMitters Backup: $(date)"
 echo "============================================="
 
 PICLOUD="/mnt/piCloud"

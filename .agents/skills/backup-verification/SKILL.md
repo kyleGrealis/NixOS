@@ -1,6 +1,6 @@
 ---
 name: backup-verification
-description: Verify, test, and audit backup status and cloud sync for nixMitters and nixPi5.
+description: Verify, test, and audit backup status and cloud sync for nixMitters and piMitters.
 disable-model-invocation: true
 allowed-tools: run_command
 ---
@@ -18,11 +18,11 @@ Guidelines for verifying, executing, and auditing system backups.
 ### 1. Trigger Full Server Backup
 Manually run the daily backup and cloud sync script:
 ```bash
-systemctl --user start backup-nixPi5
+systemctl --user start backup-piMitters
 ```
 Or run the script directly to see inline output:
 ```bash
-/home/kyle/NixOS/scripts/backup-nixPi5.sh
+/home/kyle/NixOS/scripts/backup-piMitters.sh
 ```
 
 ### 2. Trigger Sofia DB Backup
@@ -36,7 +36,7 @@ systemctl --user start backup-nixMitters
 ```
 
 ## Verification & Auditing
-- Check the log files: `/home/kyle/backup-nixPi5.log`.
+- Check the log files: `/home/kyle/backup-piMitters.log`.
 - Verify SQLite online `.backup` copies:
   ```bash
   ls -lh /mnt/piCloud/pi5-backup/sqlite-backups/

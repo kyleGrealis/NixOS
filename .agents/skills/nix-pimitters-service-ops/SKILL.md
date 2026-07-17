@@ -1,13 +1,13 @@
 ---
 name: nix-pi5-service-ops
-description: Inspect, diagnose, and manage systemd user services running on nixPi5.
+description: Inspect, diagnose, and manage systemd user services running on piMitters.
 disable-model-invocation: true
 allowed-tools: run_command
 ---
 
 # Headless Pi5 Service Operations
 
-This skill details diagnostic procedures for systemd user-level daemons on `nixPi5` (e.g., `geminios`, `milton`, timers).
+This skill details diagnostic procedures for systemd user-level daemons on `piMitters` (e.g., `geminios`, `milton`, timers).
 
 ## Diagnostics Checklist
 

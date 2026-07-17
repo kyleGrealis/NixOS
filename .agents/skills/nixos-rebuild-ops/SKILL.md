@@ -1,6 +1,6 @@
 ---
 name: nixos-rebuild-ops
-description: Rebuild, test, and switch NixOS configurations for nixMitters and nixPi5.
+description: Rebuild, test, and switch NixOS configurations for nixMitters and piMitters.
 disable-model-invocation: true
 allowed-tools: run_command
 ---
@@ -17,8 +17,8 @@ Before making configuration changes permanent, use the `test` command. This buil
 # On Laptop (nixMitters)
 sudo nixos-rebuild test --flake ~/NixOS#nixMitters
 
-# On Raspberry Pi 5 (nixPi5)
-sudo nixos-rebuild test --flake ~/NixOS#nixPi5
+# On Raspberry Pi 5 (piMitters)
+sudo nixos-rebuild test --flake ~/NixOS#piMitters
 ```
 *Benefits:* Avoids boot menu bloat; simple reboot rollbacks if the configuration breaks something.
 
@@ -28,8 +28,8 @@ Once changes are verified and stable, activate them permanently:
 # On Laptop (nixMitters)
 sudo nixos-rebuild switch --flake ~/NixOS#nixMitters
 
-# On Raspberry Pi 5 (nixPi5)
-sudo nixos-rebuild switch --flake ~/NixOS#nixPi5
+# On Raspberry Pi 5 (piMitters)
+sudo nixos-rebuild switch --flake ~/NixOS#piMitters
 ```
 
 ### 3. Flake Updates

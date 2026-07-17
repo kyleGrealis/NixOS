@@ -75,31 +75,31 @@
       ];
     };
 
-    nixosConfigurations.nixPi5 = nixos-raspberrypi.lib.nixosSystem {
+    nixosConfigurations.piMitters = nixos-raspberrypi.lib.nixosSystem {
       specialArgs = inputs;
       modules = [
         nixos-raspberrypi.nixosModules.raspberry-pi-5.base
-        ./hosts/nixPi5/configuration.nix
+        ./hosts/piMitters/configuration.nix
         home-manager-stable.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.kyle = import ./users/kyle/nixPi5.nix;
+          home-manager.users.kyle = import ./users/kyle/piMitters.nix;
         }
       ];
     };
 
     # Target for building the custom ready-to-flash SD card image
-    nixosConfigurations.nixPi5-installer = nixos-raspberrypi.lib.nixosInstaller {
+    nixosConfigurations.piMitters-installer = nixos-raspberrypi.lib.nixosInstaller {
       specialArgs = inputs;
       modules = [
         nixos-raspberrypi.nixosModules.raspberry-pi-5.base
-        ./hosts/nixPi5/configuration.nix
+        ./hosts/piMitters/configuration.nix
         home-manager-stable.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.kyle = import ./users/kyle/nixPi5.nix;
+          home-manager.users.kyle = import ./users/kyle/piMitters.nix;
         }
         ({ pkgs, ... }: {
           nixpkgs.overlays = [
