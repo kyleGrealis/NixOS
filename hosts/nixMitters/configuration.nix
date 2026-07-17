@@ -228,7 +228,7 @@ in
           devices = [ "nixPi5" "windowsMitters" ];
           ignorePerms = true;
         };
-        "ukczc-orzsn" = {
+        "obsidian" = {
           path = "/home/kyle/Documents/obsidian";
           devices = [ "nixPi5" "windowsMitters" ];
           ignorePerms = true;
