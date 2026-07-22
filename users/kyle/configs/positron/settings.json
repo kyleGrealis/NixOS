@@ -42,7 +42,8 @@
             "comments": "off",
             "strings": "off",
             "other": "off"
-        }
+        },
+        "editor.defaultFormatter": "yzhang.markdown-all-in-one"
     },
     "[quarto]": {
         "editor.wordWrap": "on",
@@ -143,5 +144,32 @@
     "positron.r.customBinaries": [
         "/home/kyle/dev/.Rbin/bin/R"
     ],
-    "positron.r.interpreters.default": "/home/kyle/dev/.Rbin/bin/R"
+    "positron.r.interpreters.default": "/home/kyle/dev/.Rbin/bin/R",
+
+    "nix.enableLanguageServer": true,
+    "nix.serverPath": "nil",
+    "nix.serverSettings": {
+        "nil": {
+            "formatting": {
+                "command": [ "nixfmt" ]
+            }
+        }
+    },
+    "[nix]": {
+        "editor.quickSuggestions": {
+            "other": "on",
+            "comments": "off",
+            "strings": "on"
+        },
+        "editor.quickSuggestionsDelay": 10,
+        "editor.suggestOnTriggerCharacters": true,
+        "editor.acceptSuggestionOnEnter": "on"
+    },
+    "editor.quickSuggestions": {
+        "other": "on",
+        "comments": "off",
+        "strings": "on"
+    },
+    "editor.quickSuggestionsDelay": 10,
+    "editor.suggestOnTriggerCharacters": true
 }
