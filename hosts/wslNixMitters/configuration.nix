@@ -104,6 +104,7 @@ in
   # System-wide Packages
   environment.systemPackages = with pkgs; [
     git
+    nil
     micro
     curl
     wget
