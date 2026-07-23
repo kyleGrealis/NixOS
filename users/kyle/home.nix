@@ -237,6 +237,10 @@
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/NixOS/users/kyle/configs/fastfetch/config.jsonc";
       force = true;
     };
+    ".gemini/antigravity-cli/settings.json" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/obsidian/dev/agent-guidelines/settings/settings.json";
+      force = true;
+    };
     ".Rprofile" = {
       text = ''
         if (interactive()) {
@@ -285,4 +289,29 @@
     NIX_LD_LIBRARY_PATH = "/run/current-system/sw/share/nix-ld/lib";
     NIX_LD = "/run/current-system/sw/share/nix-ld/lib/ld.so";
   };
+
+  # Declarative systemd path unit to monitor and heal Antigravity settings.json symlink
+  systemd.user.paths.heal-antigravity-settings = {
+    Unit = {
+      Description = "Monitor Antigravity CLI settings.json for symlink breakage";
+    };
+    Path = {
+      PathChanged = "%h/.gemini/antigravity-cli/settings.json";
+      Unit = "heal-antigravity-settings.service";
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+  };
+
+  systemd.user.services.heal-antigravity-settings = {
+    Unit = {
+      Description = "Self-heal Antigravity CLI settings.json symlink";
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${config.home.homeDirectory}/.local/bin/heal-antigravity-settings.sh";
+    };
+  };
 }
+

@@ -29,7 +29,17 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, home-manager-stable, nixos-raspberrypi, nixos-wsl, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, home-manager-stable, nixos-raspberrypi, nixos-wsl, ... }@inputs:
+    let
+      quartoOverlay = self: super: {
+        quarto = super.quarto.overrideAttrs (oldAttrs: {
+          postPatch = (oldAttrs.postPatch or "") + ''
+            substituteInPlace bin/quarto.js \
+              --replace-fail "syntax-highlighting" "highlight-style"
+          '';
+        });
+      };
+    in {
     nixosConfigurations.nixMitters = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
@@ -37,6 +47,7 @@
         # Integrate Custom Overlays
         ({ pkgs, ... }: {
           nixpkgs.overlays = [
+            quartoOverlay
             (self: super: {
               google-sans = self.callPackage ./pkgs/google-sans.nix {};
             })
@@ -61,6 +72,9 @@
       specialArgs = { inherit inputs; };
       modules = [
         nixos-wsl.nixosModules.default
+        ({ pkgs, ... }: {
+          nixpkgs.overlays = [ quartoOverlay ];
+        })
         {
           wsl.enable = true;
           wsl.defaultUser = "kyle";
