@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
 Hardened restoration script for NixOS fleet configurations and databases.
-Supports both nixPi5 and nixMitters targets with validation, dry-run,
+Supports both piMitters and nixMitters targets with validation, dry-run,
 SQLite integrity checks, and systemd service state management.
 
 Usage:
-    sudo python3 restore.py --host nixPi5 --backup-dir /mnt/piCloud/pi5-backup
+    sudo python3 restore.py --host piMitters --backup-dir /mnt/piCloud/pi5-backup
     sudo python3 restore.py --host nixMitters --backup-dir /home/kyle/piCloud/nixMitters-backup --dry-run
 """
 
@@ -27,7 +27,7 @@ logging.basicConfig(
     handlers=[logging.StreamHandler(sys.stdout)]
 )
 
-TARGET_UID = 1002  # kyle GID/UID on nixPi5
+TARGET_UID = 1002  # kyle GID/UID on piMitters
 TARGET_GID = 1002
 
 def check_root() -> None:
@@ -132,9 +132,9 @@ def restore_files(src: Path, dest: Path, dry_run: bool = False, is_dir: bool = F
         logging.error("Failed to copy %s to %s: %s", src, dest, e)
         raise
 
-def restore_nixPi5(backup_dir: Path, dry_run: bool = False) -> None:
-    """Execute hardened restoration steps for nixPi5 server."""
-    logging.info("=== Commencing nixPi5 Restoration ===")
+def restore_piMitters(backup_dir: Path, dry_run: bool = False) -> None:
+    """Execute hardened restoration steps for piMitters server."""
+    logging.info("=== Commencing piMitters Restoration ===")
     
     # 1. Stop active services to prevent write locks / corruption
     logging.info("Step 1: Stopping active services...")
@@ -258,7 +258,7 @@ def restore_nixPi5(backup_dir: Path, dry_run: bool = False) -> None:
     manage_systemd_service("geminios.service", "start", user=True, dry_run=dry_run)
     manage_systemd_service("milton.service", "start", user=True, dry_run=dry_run)
 
-    logging.info("=== nixPi5 Restoration Complete! ===")
+    logging.info("=== piMitters Restoration Complete! ===")
     logging.info("Manual actions remaining:")
     logging.info("1. Set Samba passwords: 'sudo smbpasswd -a kyle'")
     logging.info("2. Restore private SSH keys in ~/.ssh/id_ed25519 (not backed up for security)")
@@ -308,7 +308,7 @@ def main() -> None:
     check_root()
 
     parser = argparse.ArgumentParser(description="Fleet configuration and database restoration script.")
-    parser.add_argument("--host", choices=["nixPi5", "nixMitters"], required=True, help="Target host profile to restore.")
+    parser.add_argument("--host", choices=["piMitters", "nixMitters"], required=True, help="Target host profile to restore.")
     parser.add_argument("--backup-dir", required=True, help="Path to the backup source directory.")
     parser.add_argument("--dry-run", action="store_true", help="Preview copy and service state changes without committing them.")
     args = parser.parse_args()
@@ -318,8 +318,8 @@ def main() -> None:
         logging.error("Backup source directory not found: %s", args.backup_dir)
         sys.exit(1)
 
-    if args.host == "nixPi5":
-        restore_nixPi5(backup_path, dry_run=args.dry_run)
+    if args.host == "piMitters":
+        restore_piMitters(backup_path, dry_run=args.dry_run)
     elif args.host == "nixMitters":
         restore_nixMitters(backup_path, dry_run=args.dry_run)
 

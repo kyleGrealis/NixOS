@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-PI5_NAME="nixPi5"
+PI5_NAME="piMitters"
 echo "🛡️ Switching to protection mode..."
 sudo tailscale up --exit-node="$PI5_NAME"
 

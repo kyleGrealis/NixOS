@@ -6,6 +6,9 @@ set -euo pipefail
 
 # Logging
 LOG_FILE="/home/kyle/backup-piMitters.log"
+if [ -f "$LOG_FILE" ]; then
+    tail -n 1000 "$LOG_FILE" > "$LOG_FILE.tmp" && mv "$LOG_FILE.tmp" "$LOG_FILE"
+fi
 exec > >(tee -ia "$LOG_FILE") 2>&1
 
 echo "============================================="
@@ -138,7 +141,7 @@ echo "--- Backing up OneCLI PostgreSQL Database ---"
 mkdir -p "$BACKUP_DIR/docker-volumes"
 if docker ps --format '{{.Names}}' | grep -q "^onecli-postgres-1$"; then
     echo "Performing online pg_dump..."
-    docker exec -t onecli-postgres-1 pg_dump -U onecli onecli > "$BACKUP_DIR/docker-volumes/onecli_postgres.sql" || true
+    docker exec onecli-postgres-1 pg_dump -U onecli onecli > "$BACKUP_DIR/docker-volumes/onecli_postgres.sql" || true
 else
     echo "Container onecli-postgres-1 is offline, falling back to volume tarball..."
     docker run --rm -v onecli_pgdata:/volume -v "$BACKUP_DIR/docker-volumes":/backup alpine tar czf /backup/onecli_pgdata.tar.gz -C /volume . || true
