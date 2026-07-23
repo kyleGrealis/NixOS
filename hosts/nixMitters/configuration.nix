@@ -284,6 +284,7 @@ in
   # System-wide Packages (Keep this minimal, most go to Home Manager)
   environment.systemPackages = with pkgs; [
     git
+    nil
     micro
     curl
     wget
